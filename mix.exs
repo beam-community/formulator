@@ -27,6 +27,9 @@ defmodule Formulator.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:gettext, github: "elixir-lang/gettext"},
+      {:phoenix_html, "~> 2.4"},
+    ]
   end
 end

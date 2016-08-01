@@ -1,0 +1,3 @@
+%{"gettext": {:git, "https://github.com/elixir-lang/gettext.git", "cc1598729fa82a948dd4510d6667cc9158eca4f4", []},
+  "phoenix_html": {:hex, :phoenix_html, "2.6.2", "944a5e581b0d899e4f4c838a69503ebd05300fe35ba228a74439e6253e10e0c0", [:mix], [{:plug, "~> 1.0", [hex: :plug, optional: false]}]},
+  "plug": {:hex, :plug, "1.1.6", "8927e4028433fcb859e000b9389ee9c37c80eb28378eeeea31b0273350bf668b", [:mix], [{:cowboy, "~> 1.0", [hex: :cowboy, optional: true]}]}}
