@@ -1,0 +1,2 @@
+defmodule Formulator do
+end
