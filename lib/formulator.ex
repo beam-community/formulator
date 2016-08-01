@@ -1,23 +1,18 @@
-defmodule Formulator.HtmlError do
-  defstruct [
-    class: "",
-    html: ""
-  ]
-end
-
 defmodule Formulator do
   use Phoenix.HTML
   alias Formulator.HtmlError
 
   def input(form, field, options \\ []) do
     error = html_error(form, field)
-    html(form, field, options, error)
+    build_html(form, field, options, error)
   end
 
-  def html(form, field, options, error) do
+  defp build_html(form, field, options, error) do
     input_type = options[:as] || :text
     input_class = options[:class] || ""
-    options = Dict.delete(options, :as)  |> Dict.put(:class, add_error_class(input_class, error.class))
+    options = options
+    |> Dict.delete(:as)
+    |> Dict.put(:class, add_error_class(input_class, error.class))
 
     [
       build_label(form, field, options[:label_text]),
@@ -25,7 +20,7 @@ defmodule Formulator do
     ] ++ error.html
   end
 
-  def add_error_class(input_class, error_class) do
+  defp add_error_class(input_class, error_class) do
     "#{input_class} #{error_class}"
   end
 
@@ -33,7 +28,7 @@ defmodule Formulator do
   def build_label(_, _, false), do: ""
   def build_label(form, field, label_text), do: label(form, field, label_text)
 
-  def html_error(form, field) do
+  defp html_error(form, field) do
     case form.errors[field] do
       nil ->
         %HtmlError{}
@@ -59,7 +54,7 @@ defmodule Formulator do
   defp input_function(:textarea), do: :textarea
   defp input_function(input_type), do: :"#{input_type}_input"
 
-  def gettext do
+  defp gettext do
     Application.get_env(:formulator, :gettext)
   end
 end
