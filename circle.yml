@@ -1,0 +1,20 @@
+machine:
+  environment:
+    PATH: "./bin:$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
+dependencies:
+  pre:
+    - if ! asdf | grep version; then git clone https://github.com/HashNuke/asdf.git ~/.asdf; fi
+    - asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git || true
+    - asdf plugin-add elixir https://github.com/HashNuke/asdf-elixir.git || true
+    - asdf install
+    - mix local.hex --force
+    - mix local.rebar --force
+    - yes | mix deps.get
+  cache_directories:
+    - ~/.mix
+    - ~/.asdf
+    - deps
+test:
+  override:
+    - MIX_ENV=prod mix compile --warnings-as-errors
+    - mix test
