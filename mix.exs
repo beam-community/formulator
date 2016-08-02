@@ -1,6 +1,6 @@
 defmodule Formulator.Mixfile do
   use Mix.Project
-  @version "0.0.1"
+  @version "0.0.2"
 
   def project do
     [app: :formulator,
