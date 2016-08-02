@@ -3,11 +3,13 @@ defmodule Formulator.Mixfile do
 
   def project do
     [app: :formulator,
-     version: "0.1.0",
+     version: "0.0.1",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+     package: package(),
+   ]
   end
 
   # Configuration for the OTP application
@@ -28,8 +30,18 @@ defmodule Formulator.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:gettext, github: "elixir-lang/gettext"},
+      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:gettext, ">= 0.11.0"},
       {:phoenix_html, "~> 2.4"},
+    ]
+  end
+
+  defp package do
+    [
+      description: "A form helper for creating labels and inputs with errors",
+      maintainers: ["Jason Draper", "Ashley Ellis", "Josh Steiner"],
+      licenses: ["MIT"],
+      links: %{"Github" => "https://github.com/thoughtbot/formulator"},
     ]
   end
 end
