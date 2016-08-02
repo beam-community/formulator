@@ -13,9 +13,16 @@ defmodule FormulatorTest do
 
     test "passing the label text option allows for overring the label" do
       [{:safe, label} | _] = %Form{data: %{name: ""}}
-        |> Formulator.input(:name, label_text: "Customer Name")
+        |> Formulator.input(:name, label: "Customer Name")
 
       assert label |> to_string == ~s(<label for="_name">Customer Name</label>)
+    end
+
+    test "passing `label: false` will add `aria-label` to the input" do
+      [{:safe, input} | _] = %Form{data: %{last_name: ""}}
+        |> Formulator.input(:last_name, label: false)
+
+      assert input =~ ~s(aria-label="Last name")
     end
   end
 
