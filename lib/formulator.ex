@@ -9,8 +9,9 @@ defmodule Formulator do
 
   ## Options
 
-    * `:label` - When given a string, that string is used as the label text.
-    When false, does not create a label tag. Instead, an `aria-label`
+    * `:label` - When given a keyword list, the keyword `text` is extracted to
+    use as the label text. All other options are passed along to the label.
+    When given `false`, does not create a label tag. Instead, an `aria-label`
     attribute is added to the input to improve accessibility.
 
   ## Examples
@@ -18,19 +19,33 @@ defmodule Formulator do
   Basic input:
       <%= input form, :email %>
       #=> <label for="user_email">Email</label>
-      #=> <input id="user_name" name="user[email]" type="text" value="">
+      #=> <input id="user_email" name="user[email]" type="text" value="">
 
   Without a label:
       <%= input form, :email, label: false %>
       #=> <input id="user_name" name="user[email]" aria-label="email" type="text" value="">
+
+  Passing other options:
+      <%= input form, :email, label: [class: "control-label"] %>
+      #=> <label class="control-label" for="user_email">Email</label>
+      #=> <input id="user_email" name="user[email]" type="text" value="">
   """
 
   @spec input(Phoenix.HTML.Form.t, atom, []) :: binary
   def input(form, field, options \\ []) do
-    cond do
-      {:label, false} in options -> input_without_label(form, field, options)
-      true -> input_with_label(form, field, options)
+    {label_options, options} = extract_label_options(options)
+
+    case label_options do
+      false -> input_without_label(form, field, options)
+      _ -> input_with_label(form, field, label_options, options)
     end
+  end
+
+  defp extract_label_options(options) do
+    label_options = Keyword.get(options, :label, [])
+    options = Keyword.delete(options, :label)
+
+    {label_options, options}
   end
 
   defp input_without_label(form, field, options) do
@@ -41,9 +56,9 @@ defmodule Formulator do
     ] ++ error.html
   end
 
-  defp input_with_label(form, field, options) do
+  defp input_with_label(form, field, label_options, options) do
     error = html_error(form, field)
-    build_html(form, field, options, error)
+    build_html(form, field, label_options, options, error)
   end
 
   defp build_aria_label(field) do
@@ -54,9 +69,9 @@ defmodule Formulator do
     field |> to_string |> String.replace("_", " ") |> String.capitalize
   end
 
-  defp build_html(form, field, options, error) do
+  defp build_html(form, field, label_options, options, error) do
     [
-      build_label(form, field, options),
+      build_label(form, field, label_options),
       build_input(form, field, options, error)
     ] ++ error.html
   end
@@ -75,10 +90,10 @@ defmodule Formulator do
     "#{input_class} #{error_class}"
   end
 
-  def build_label(form, field, options) do
-    case options[:label] do
-      nil -> label(form, field)
-      label_text -> label(form, field, label_text)
+  def build_label(form, field, label_options) do
+    case label_options[:text] do
+      nil -> label(form, field, label_options)
+      text -> label(form, field, text, Dict.delete(label_options, :text))
     end
   end
 
