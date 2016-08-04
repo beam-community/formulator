@@ -98,17 +98,21 @@ defmodule Formulator do
     "data-role": "#{field}-error"
   end
 
-  def translate_error({msg, opts}) do
-    case opts[:count] do
-      nil -> Gettext.dgettext(gettext, "errors", msg, opts)
-      count -> Gettext.dngettext(gettext, "errors", msg, msg, count, opts)
+  @error_message """
+    Missing translate_error_module config. Add the following to your config/config.exe
+
+    config :formulator, translate_error_module: YourAppName.Gettext
+  """
+
+  defp translate_error(error) do
+    if module = Application.get_env(:formulator, :translate_error_module) do
+      module.translate_error(error)
+    else
+      raise ArgumentError, message: @error_message
     end
   end
 
   defp input_function(:textarea), do: :textarea
   defp input_function(input_type), do: :"#{input_type}_input"
 
-  defp gettext do
-    Application.get_env(:formulator, :gettext)
-  end
 end

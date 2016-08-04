@@ -50,10 +50,12 @@ Add formulator to your list of dependencies in `mix.exs`:
   $ mix deps.get
 ```
 
-Tell formulator where to find your translations
+Formulator needs to know what module to use for the `translate_error/1`
+function. This is commonly defined by Phoenix either in
+`web/views/error_helper.ex` or `web/gettext.ex`.
 ```
   # config/config.exs
-  config :formulator, gettext: YourAppName.Gettext
+  config :formulator, translate_error_module: YourAppName.Gettext
 ```
 
 You can import the package into all your views or individually as it makes
