@@ -55,7 +55,7 @@ function. This is commonly defined by Phoenix either in
 `web/views/error_helper.ex` or `web/gettext.ex`.
 ```
   # config/config.exs
-  config :formulator, translate_error_module: YourAppName.Gettext
+  config :formulator, translate_error_module: YourAppName.ErrorHelpers
 ```
 
 You can import the package into all your views or individually as it makes
