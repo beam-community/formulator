@@ -50,14 +50,14 @@ defmodule Formulator do
 
   defp input_without_label(form, field, options) do
     options = options ++ build_aria_label(field)
-    error = html_error(form, field)
+    error = HtmlError.html_error(form, field)
     [
       build_input(form, field, options, error)
     ] ++ error.html
   end
 
   defp input_with_label(form, field, label_options, options) do
-    error = html_error(form, field)
+    error = HtmlError.html_error(form, field)
     build_html(form, field, label_options, options, error)
   end
 
@@ -97,37 +97,6 @@ defmodule Formulator do
     end
   end
 
-  defp html_error(form, field) do
-    case form.errors[field] do
-      nil ->
-        %HtmlError{}
-      error ->
-        %HtmlError{class: "has-error", html: build_html(error, field)}
-    end
-  end
-
-  defp build_html(error, field) do
-    content_tag :span,
-    translate_error(error),
-    class: "field-error",
-    "data-role": "#{field}-error"
-  end
-
-  @error_message """
-    Missing translate_error_module config. Add the following to your config/config.exe
-
-    config :formulator, translate_error_module: YourAppName.Gettext
-  """
-
-  defp translate_error(error) do
-    if module = Application.get_env(:formulator, :translate_error_module) do
-      module.translate_error(error)
-    else
-      raise ArgumentError, message: @error_message
-    end
-  end
-
   defp input_function(:textarea), do: :textarea
   defp input_function(input_type), do: :"#{input_type}_input"
-
 end
