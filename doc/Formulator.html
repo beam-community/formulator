@@ -1,0 +1,212 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.13.0">
+    <title>Formulator – formulator v0.0.6</title>
+    <link rel="stylesheet" href="dist/app-9c1e3d5aa2.css" />
+    
+      <link rel="canonical" href="https://hexdocs.pm/formulator/Formulator.html" />
+    
+    <script src="dist/sidebar_items.js"></script>
+  </head>
+  <body data-type="modules">
+    <script>if(localStorage.getItem('night-mode')) document.body.className += ' night-mode';</script>
+
+    <div class="main">
+<button class="sidebar-toggle">
+  <i class="icon-menu"></i>
+</button>
+<section class="sidebar">
+
+  
+  <a href="readme.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        formulator
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.0.6
+      </h2>
+    </div>
+    
+  </a>
+
+  <div class="sidebar-search">
+    <i class="icon-search"></i>
+    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+  </div>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+
+    
+  </ul>
+
+  <ul id="full-list" class="sidebar-fullList"></ul>
+  <div class="sidebar-noResults"></div>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">formulator v0.0.6</small>
+        Formulator
+        
+        
+      </h1>
+
+      
+
+      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+          
+
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#build_label/3">build_label(form, field, label_options)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#input/3">input(form, field, options \\ [])</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Returns an html input with an associated label.
+If there are errors associated with the field, it will also output a span
+tag with the errors</p>
+</div>
+  
+</div>
+
+  </div>
+
+
+          
+
+          
+
+        </section>
+      
+
+      
+
+      
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="build_label/3">
+  <div class="detail-header">
+    <a href="#build_label/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">build_label(form, field, label_options)</span>
+    
+    
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="input/3">
+  <div class="detail-header">
+    <a href="#input/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">input(form, field, options \\ [])</span>
+    
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">input(Phoenix.HTML.Form.t, atom, []) :: binary</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Returns an html input with an associated label.
+If there are errors associated with the field, it will also output a span
+tag with the errors.</p>
+<h2>Options</h2>
+<ul>
+<li><code class="inline">:label</code> - When given a keyword list, the keyword <code class="inline">text</code> is extracted to
+  use as the label text. All other options are passed along to the label.
+  When given <code class="inline">false</code>, does not create a label tag. Instead, an <code class="inline">aria-label</code>
+  attribute is added to the input to improve accessibility.
+</li>
+</ul>
+<h2>Examples</h2>
+<p>Basic input:</p>
+<pre><code class="elixir">&lt;%= input form, :email %&gt;
+#=&gt; &lt;label for=&quot;user_email&quot;&gt;Email&lt;/label&gt;
+#=&gt; &lt;input id=&quot;user_email&quot; name=&quot;user[email]&quot; type=&quot;text&quot; value=&quot;&quot;&gt;</code></pre>
+<p>Without a label:</p>
+<pre><code class="elixir">&lt;%= input form, :email, label: false %&gt;
+#=&gt; &lt;input id=&quot;user_name&quot; name=&quot;user[email]&quot; aria-label=&quot;email&quot; type=&quot;text&quot; value=&quot;&quot;&gt;</code></pre>
+<p>Passing other options:</p>
+<pre><code class="elixir">&lt;%= input form, :email, label: [class: &quot;control-label&quot;] %&gt;
+#=&gt; &lt;label class=&quot;control-label&quot; for=&quot;user_email&quot;&gt;Email&lt;/label&gt;
+#=&gt; &lt;input id=&quot;user_email&quot; name=&quot;user[email]&quot; type=&quot;text&quot; value=&quot;&quot;&gt;</code></pre>
+
+  </section>
+</div>
+
+        </section>
+      
+
+      
+
+      
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.13.0),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle" />
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/app-21f1a20b9e.js"></script>
+  </body>
+</html>
+
