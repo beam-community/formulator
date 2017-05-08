@@ -29,6 +29,10 @@ defmodule Formulator do
       <%= input form, :email, label: [class: "control-label"] %>
       #=> <label class="control-label" for="user_email">Email</label>
       #=> <input id="user_email" name="user[email]" type="text" value="">
+
+      <%= input form, :email, class: "my-email-class", label: [class: "my-email-label-class"] %>
+      #=> <label class="my-email-label-class" for="user_email">Email</label>
+      #=> <input id="user_email" name="user[email]" type="text" value="" class="my-email-class">
   """
 
   @spec input(Phoenix.HTML.Form.t, atom, []) :: binary
