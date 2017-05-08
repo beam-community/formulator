@@ -22,7 +22,7 @@ defmodule FormulatorTest do
       [{:safe, input} | _] = %Form{data: %{last_name: ""}}
         |> Formulator.input(:last_name, label: false)
 
-      assert input =~ ~s(aria-label="Last name")
+      assert input |> to_string =~ ~s(aria-label="Last name")
     end
 
     test "any options passed to `label` are passed along to the label" do
@@ -38,14 +38,14 @@ defmodule FormulatorTest do
       [_, {:safe, input} | _] = %Form{data: %{name: ""}}
         |> Formulator.input(:name, class: "customer_name")
 
-        assert input =~ ~s(class="customer_name ")
+        assert input |> to_string =~ ~s(class="customer_name ")
     end
 
     test "the :as option allows choosing an input other than text" do
       [_, {:safe, input} | _] = %Form{data: %{name: ""}}
         |> Formulator.input(:name, as: :hidden)
 
-        assert input =~ ~s(type="hidden")
+        assert input |> to_string =~ ~s(type="hidden")
     end
   end
 end
