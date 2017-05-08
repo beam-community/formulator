@@ -42,8 +42,8 @@ defmodule Formulator do
   end
 
   defp extract_label_options(options) do
-    label_options = Keyword.get(options, :label, [])
-    options = Keyword.delete(options, :label)
+    label_options = options |> Keyword.get(:label, [])
+    options = options |> Keyword.delete(:label)
 
     {label_options, options}
   end
@@ -79,9 +79,10 @@ defmodule Formulator do
   defp build_input(form, field, options, error) do
     input_type = options[:as] || :text
     input_class = options[:class] || ""
-    options = options
-    |> Dict.delete(:as)
-    |> Dict.put(:class, add_error_class(input_class, error.class))
+    options =
+      options
+      |> Keyword.delete(:as)
+      |> Keyword.put(:class, add_error_class(input_class, error.class))
 
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
@@ -93,7 +94,7 @@ defmodule Formulator do
   def build_label(form, field, label_options) do
     case label_options[:text] do
       nil -> label(form, field, label_options)
-      text -> label(form, field, text, Dict.delete(label_options, :text))
+      text -> label(form, field, text, label_options |> Keyword.delete(:text))
     end
   end
 
