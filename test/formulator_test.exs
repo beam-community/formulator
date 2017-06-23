@@ -2,6 +2,8 @@ defmodule FormulatorTest do
   use ExUnit.Case
   doctest Formulator
   alias Phoenix.HTML.Form
+  alias Ecto.Changeset
+  alias Formulator.SampleSchema
 
   describe "input - label" do
     test "a label is created with the field name" do
@@ -101,6 +103,15 @@ defmodule FormulatorTest do
 
       assert input |> to_string =~ ~s(textarea)
       assert input |> to_string =~ ~s(class="foo ")
+    end
+  end
+
+  describe "input - validation" do
+    test "adds validation options for given form" do
+      [{:safe, input} | _] = %Form{data: %{name: ""}, }
+        |> Formulator.input(:name, validate: true)
+
+      assert input |> to_string =~ ~s(required)
     end
   end
 end

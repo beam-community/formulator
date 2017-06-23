@@ -23,6 +23,7 @@ defmodule Formulator.Mixfile do
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:gettext, ">= 0.11.0"},
       {:phoenix_html, "~> 2.4"},
+      {:ecto, "~> 2.1", only: :test}
     ]
   end
 
