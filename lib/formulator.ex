@@ -114,11 +114,8 @@ defmodule Formulator do
 
   defp add_format_validation_attribute([validate_regex: true] = options, form, field) do
     case form.source.validations[field] do
-      {:format, regex} ->
-        options
-        |> Keyword.put_new(:pattern, Regex.source(regex))
-      _ ->
-        options
+      {:format, regex} -> options |> Keyword.put_new(:pattern, Regex.source(regex))
+      _ -> options
     end
   end
   defp add_format_validation_attribute(options, _, _), do: options
