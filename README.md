@@ -92,7 +92,7 @@ under the terms specified in the [LICENSE] file.
 
 ## About
 
-![thoughtbot](https://thoughtbot.com/logo.png)
+[![thoughtbot][thoughtbot-logo]][thoughtbot]
 
 Formulator is maintained and funded by thoughtbot, inc.
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.
@@ -101,5 +101,7 @@ We love open source software, Elixir, and Phoenix. See [our other Elixir
 projects][elixir-phoenix], or [hire our Elixir/Phoenix development team][hire]
 to design, develop, and grow your product.
 
+  [thoughtbot]: https://thoughtbot.com?utm_source=github
+  [thoughtbot-logo]: http://presskit.thoughtbot.com/images/thoughtbot-logo-for-readmes.svg
   [elixir-phoenix]: https://thoughtbot.com/services/elixir-phoenix?utm_source=github
   [hire]: https://thoughtbot.com?utm_source=github
