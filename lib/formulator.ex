@@ -125,6 +125,7 @@ defmodule Formulator do
 
   defp add_error_class(input_class, error_class) do
     [input_class, error_class]
+    |> Enum.reject(&(is_nil(&1)))
     |> Enum.join(" ")
     |> String.trim
   end
