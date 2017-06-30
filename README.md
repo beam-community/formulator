@@ -84,7 +84,7 @@ Thank you, [contributors]!
 
 ## License
 
-Formulator is Copyright (c) 2015 thoughtbot, inc.
+Formulator is Copyright (c) 2017 thoughtbot, inc.
 It is free software, and may be redistributed
 under the terms specified in the [LICENSE] file.
 
