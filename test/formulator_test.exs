@@ -8,9 +8,9 @@ defmodule FormulatorTest do
     test "a label is created with the field name" do
       label =
         %{name: ""}
-        |> prepare_form()
+        |> prepare_form
         |> Formulator.input(:name)
-        |> extract_field(:first)
+        |> extract_element(:first)
         |> to_string
 
       assert label == ~s(<label for="_name">Name</label>)
@@ -19,9 +19,9 @@ defmodule FormulatorTest do
     test "passing the label: [text:] option allows for overriding the label" do
       label =
         %{name: ""}
-        |> prepare_form()
+        |> prepare_form
         |> Formulator.input(:name, label: [text: "Customer Name"])
-        |> extract_field(:first)
+        |> extract_element(:first)
         |> to_string
 
       assert label == ~s(<label for="_name">Customer Name</label>)
@@ -30,9 +30,9 @@ defmodule FormulatorTest do
     test "passing `label: false` will add `aria-label` to the input" do
       input =
         %{last_name: ""}
-        |> prepare_form()
+        |> prepare_form
         |> Formulator.input(:last_name, label: false)
-        |> extract_field(:first)
+        |> extract_element(:first)
         |> to_string
 
       assert input =~ ~s(aria-label="Last name")
@@ -41,9 +41,9 @@ defmodule FormulatorTest do
     test "any options passed to `label` are passed along to the label" do
       label =
         %{name: ""}
-        |> prepare_form()
+        |> prepare_form
         |> Formulator.input(:name, label: [class: "control-label"])
-        |> extract_field(:first)
+        |> extract_element(:first)
         |> to_string
 
       assert label == ~s(<label class="control-label" for="_name">Name</label>)
@@ -54,7 +54,7 @@ defmodule FormulatorTest do
         %{name: ""}
         |> prepare_form()
         |> Formulator.input(:name, label: "Customer Name")
-        |> extract_field(:first)
+        |> extract_element(:first)
         |> to_string
 
       assert label == ~s(<label for="_name">Customer Name</label>)
@@ -65,9 +65,9 @@ defmodule FormulatorTest do
     test "passing classes adds them to the input" do
       input =
         %{name: ""}
-        |> prepare_form()
+        |> prepare_form
         |> Formulator.input(:name, class: "customer_name")
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(class="customer_name")
@@ -76,9 +76,9 @@ defmodule FormulatorTest do
     test ":as option allows choosing an input other than text" do
       input =
         %{name: ""}
-        |> prepare_form()
+        |> prepare_form
         |> Formulator.input(:name, as: :hidden)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(type="hidden")
@@ -89,7 +89,7 @@ defmodule FormulatorTest do
         %{admin: ""}
         |> prepare_form()
         |> Formulator.input(:admin, as: :checkbox, class: "foo")
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(type="checkbox")
@@ -103,7 +103,7 @@ defmodule FormulatorTest do
         |> Formulator.input(:date, as: :date, builder: fn b ->
           b.(:year, [options: 2017..2021, class: "foo"])
         end)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(id="_date_year")
@@ -117,7 +117,7 @@ defmodule FormulatorTest do
         |> Formulator.input(:datetime, as: :datetime, builder: fn b ->
           b.(:year, [options: 2017..2021, class: "foo"])
         end)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(id="_datetime_year")
@@ -131,7 +131,7 @@ defmodule FormulatorTest do
         |> Formulator.input(:time, as: :time, builder: fn b ->
           b.(:hour, [options: 1..2, class: "foo"])
         end)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(id="_time_hour")
@@ -143,7 +143,7 @@ defmodule FormulatorTest do
         %{name: ""}
         |> prepare_form()
         |> Formulator.input(:name, as: :textarea, class: "foo")
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(textarea)
@@ -157,7 +157,7 @@ defmodule FormulatorTest do
         %{name: "Fluff"}
         |> prepare_changeset_form(:validate)
         |> Formulator.input(:name, validate: true)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(required)
@@ -168,7 +168,7 @@ defmodule FormulatorTest do
         %{name: "Fluff"}
         |> prepare_changeset_form(:novalidate)
         |> Formulator.input(:name, validate: true)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       refute input =~ ~s(required)
@@ -181,7 +181,7 @@ defmodule FormulatorTest do
         %{number: "321"}
         |> prepare_changeset_form(:validate)
         |> Formulator.input(:number, validate: true)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(min)
@@ -192,7 +192,7 @@ defmodule FormulatorTest do
         %{number: "321"}
         |> prepare_changeset_form(:novalidate)
         |> Formulator.input(:number, validate: true)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       refute input =~ ~s(min)
@@ -205,7 +205,7 @@ defmodule FormulatorTest do
         %{email: "test@domain.com"}
         |> prepare_changeset_form(:validate)
         |> Formulator.input(:email_address, validate_regex: true)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       assert input =~ ~s(pattern)
@@ -216,7 +216,7 @@ defmodule FormulatorTest do
         %{email: "test@domain.com"}
         |> prepare_changeset_form(:novalidate)
         |> Formulator.input(:email_address, validate_regex: true)
-        |> extract_field(:second)
+        |> extract_element(:second)
         |> to_string
 
       refute input =~ ~s(pattern)
@@ -227,11 +227,11 @@ defmodule FormulatorTest do
     %Form{data: attrs}
   end
 
-  defp extract_field(form, :second) do
+  defp extract_element(form, :second) do
     [_, {:safe, element} | _] = form
     element
   end
-  defp extract_field(form, :first) do
+  defp extract_element(form, :first) do
     [{:safe, element} | _] = form
     element
   end

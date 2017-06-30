@@ -26,9 +26,9 @@ defmodule Formulator do
       #=> <input id="user_name" name="user[email]" aria-label="email" type="text" value="">
 
   Passing other options:
-      <%= input form, :email, as: :email, label: [class: "control-label"] %>
-      #=> <label class="control-label" for="user_email">Email</label>
-      #=> <input id="user_email" type="email" name="user[email]" value="">
+      <%= input form, :name, label: [class: "control-label"] %>
+      #=> <label class="control-label" for="user_name">Name</label>
+      #=> <input id="user_name" type="text" name="user[name]" value="">
 
       <%= input form, :email, as: :email, placeholder: "your@email.com", class: "my-email-class", label: [class: "my-email-label-class"] %>
       #=> <label class="my-email-label-class" for="user_email">Email</label>
@@ -99,23 +99,27 @@ defmodule Formulator do
       |> add_validation_attributes(form, field)
       |> add_format_validation_attribute(form, field)
       |> Keyword.delete(:as)
-      |> Keyword.delete(:validate)
-      |> Keyword.delete(:validate_regex)
       |> Keyword.put(:class, add_error_class(input_class, error.class))
 
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
 
   defp add_validation_attributes([validate: true] = options, form, field) do
-    Phoenix.HTML.Form.input_validations(form, field)
+    form
+    |> Phoenix.HTML.Form.input_validations(field)
     |> Keyword.merge(options)
+    |> Keyword.delete(:validate)
   end
   defp add_validation_attributes(options, _, _), do: options
 
   defp add_format_validation_attribute([validate_regex: true] = options, form, field) do
     case form.source.validations[field] do
-      {:format, regex} -> options |> Keyword.put_new(:pattern, Regex.source(regex))
-      _ -> options
+      {:format, regex} ->
+        options
+        |> Keyword.put_new(:pattern, Regex.source(regex))
+        |> Keyword.delete(:validate_regex)
+      _ ->
+        options
     end
   end
   defp add_format_validation_attribute(options, _, _), do: options
