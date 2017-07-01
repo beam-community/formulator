@@ -17,32 +17,34 @@ defmodule Formulator do
   ## Examples
 
   Basic input:
-      <%= input form, :email %>
-      #=> <label for="user_email">Email</label>
-      #=> <input id="user_email" name="user[email]" type="text" value="">
+      <%= input form, :name %>
+      #=> <label for="user_name">Name</label>
+      #=> <input id="user_name" name="user[name]" type="text" value="">
 
   Without a label:
-      <%= input form, :email, label: false %>
-      #=> <input id="user_name" name="user[email]" aria-label="email" type="text" value="">
+      <%= input form, :name, label: false %>
+      #=> <input id="user_name" name="user[name]" aria-label="name" type="text" value="">
 
   Passing other options:
       <%= input form, :name, label: [class: "control-label"] %>
       #=> <label class="control-label" for="user_name">Name</label>
       #=> <input id="user_name" type="text" name="user[name]" value="">
 
+  Using different input types:
       <%= input form, :email, as: :email, placeholder: "your@email.com", class: "my-email-class", label: [class: "my-email-label-class"] %>
       #=> <label class="my-email-label-class" for="user_email">Email</label>
       #=> <input id="user_email" type="email" name="user[email]" placeholder: "your@email.com" value="" class="my-email-class">
 
-  With validation attributes:
-      <%= input form, :email, as: :email, validate: true %>
-      #=> <label for="user_email">Email</label>
-      #=> <input id="user_email" type="email" name="user[email]" required="required" %>
-
-  With regex validation:
-      <%= input form, :email, as: :email, validate: true, validate_regex: true %>
+  If your form is using a changeset with validations (eg, with ecto and phoenix_ecto),
+  then Formulator will add HTML validation attributes:
+      <%= input form, :email, as: :email %>
       #=> <label for="user_email">Email</label>
       #=> <input id="user_email" type="email" name="user[email]" required="required" pattern=".+@.+" %>
+
+  If your changeset format regex is causing problems, turn it off:
+      <%= input form, :email, as: :email, validate_regex: false %>
+      #=> <label for="user_email">Email</label>
+      #=> <input id="user_email" type="email" name="user[email]" required="required" %>
   """
 
   @spec input(Phoenix.HTML.Form.t, atom, []) :: binary
@@ -104,25 +106,52 @@ defmodule Formulator do
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
 
-  defp add_validation_attributes([validate: true] = options, form, field) do
-    form
-    |> Phoenix.HTML.Form.input_validations(field)
-    |> Keyword.merge(options)
-    |> Keyword.delete(:validate)
+  defp add_validation_attributes(options, %{impl: impl, source: %{}} = form, field) when is_atom(impl) do
+    if should_validate?(options) do
+      form
+      |> Phoenix.HTML.Form.input_validations(field)
+      |> Keyword.merge(options)
+      |> Keyword.delete(:validate)
+    else
+      options
+    end
   end
   defp add_validation_attributes(options, _, _), do: options
 
-  defp add_format_validation_attribute([validate_regex: true] = options, form, field) do
-    case form.source.validations[field] do
-      {:format, regex} ->
-        options
-        |> Keyword.put_new(:pattern, Regex.source(regex))
-        |> Keyword.delete(:validate_regex)
-      _ ->
-        options
+  defp add_format_validation_attribute(options, %{impl: impl, source: %{}} = form, field) when is_atom(impl) do
+    with true <- should_validate_regex?(options),
+      {:format, regex} <- form.source.validations[field]
+    do
+      options
+      |> Keyword.put_new(:pattern, Regex.source(regex))
+      |> Keyword.delete(:validate_regex)
+    else
+      _ -> options
     end
   end
   defp add_format_validation_attribute(options, _, _), do: options
+
+  defp should_validate?(options) do
+    Enum.any?([
+      options[:validate] == true,
+      validate_config(),
+    ], &(&1 == true))
+  end
+
+  defp should_validate_regex?(options) do
+    Enum.any?([
+      options[:validate_regex] == true,
+      validate_regex_config(),
+    ], &(&1 == true))
+  end
+
+  defp validate_config do
+    Application.get_env(:formulator, :validate) || true
+  end
+
+  defp validate_regex_config do
+    Application.get_env(:formulator, :validate_regex) || true
+  end
 
   defp add_error_class(input_class, error_class) do
     [input_class, error_class]
