@@ -155,14 +155,14 @@ defmodule Formulator do
   defp should_validate?(options) do
     Enum.any?([
       options[:validate] == true,
-      Application.get_env(:formulator, :validate) || true == true,
+      Application.get_env(:formulator, :validate, true) == true,
     ])
   end
 
   defp should_validate_regex?(options) do
     Enum.any?([
       options[:validate_regex] == true,
-      Application.get_env(:formulator, :validate_regex) || true == true,
+      Application.get_env(:formulator, :validate_regex, true) == true,
     ])
   end
 
