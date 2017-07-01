@@ -14,6 +14,14 @@ defmodule Formulator do
     When given `false`, does not create a label tag. Instead, an `aria-label`
     attribute is added to the input to improve accessibility.
 
+    * `:validate` - Defaults to application config. When provided a form created with an
+    ecto changeset that contains validations, then Formulator will add HTML5
+    validation attributes (except regex).
+
+    * `:validate_regex` - Defaults to application config. Like option `:validate`, except
+    this will add a pattern HTML5 validation. This should work with most simple
+    regex patterns, but the browser's regex engine may differ from Erlang's.
+
   ## Examples
 
   Basic input:
@@ -40,20 +48,21 @@ defmodule Formulator do
       #=> <label for="asset_count">Count</label>
       #=> <input id="asset_count" type="number" name="asset[count]" value="">
 
-  If your form is using a changeset with validations (eg, with ecto and phoenix_ecto),
-  then Formulator will add HTML validation attributes:
+  If your form is using a changeset with validations (eg, with `Ecto` and `phoenix_ecto`),
+  then Formulator will add HTML5 validation attributes:
       <%= input form, :email, as: :email %>
       #=> <label for="user_email">Email</label>
       #=> <input id="user_email" type="email" name="user[email]" required="required" pattern=".+@.+" %>
 
-  If you would rather not add HTML5 validation attributes, you can opt out by supplying
-  `validate: false`:
+  If you would rather not add HTML5 validation attributes, you can opt out
+  by supplying `validate: false`:
       <%= input form, :email, as: :email, validate: false %>
       #=> <label for="user_email">Email</label>
       #=> <input id="user_email" type="email" name="user[email]" %>
 
-  You may want HTML5 validations, but the browser's regex engine is not working with Elixir's
-  regex engine. You can opt-out of regex validation with `validate_regex: false`:
+  You may want HTML5 validations, but the browser's regex engine is not
+  working with Elixir's regex engine. You can opt-out of regex validation
+  with `validate_regex: false`:
       <%= input form, :email, as: :email, validate_regex: false %>
       #=> <label for="user_email">Email</label>
       #=> <input id="user_email" type="email" name="user[email]" required="required" %>

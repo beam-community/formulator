@@ -10,7 +10,16 @@ defmodule Formulator.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
-     docs: [source_ref: "#{@version}", extras: ["README.md"], main: "readme"],
+     docs: [
+       source_ref: "#{@version}",
+       extras: [
+         "README.md",
+       ],
+       deps: [
+         ecto: "https://hexdocs.pm/ecto",
+       ],
+       main: "readme"
+     ],
      package: package(),
    ]
   end
@@ -24,11 +33,11 @@ defmodule Formulator.Mixfile do
 
   defp deps do
     [
-      {:ex_doc, ">= 0.0.0", only: :dev},
-      {:gettext, ">= 0.11.0"},
-      {:phoenix_html, "~> 2.4"},
       {:ecto, "~> 2.1", only: :test, optional: true},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:gettext, ">= 0.11.0"},
       {:phoenix_ecto, "~> 3.2", only: :test, optional: true},
+      {:phoenix_html, "~> 2.4"},
     ]
   end
 
