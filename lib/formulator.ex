@@ -31,9 +31,14 @@ defmodule Formulator do
       #=> <input id="user_name" type="text" name="user[name]" value="">
 
   Using different input types:
-      <%= input form, :email, as: :email, placeholder: "your@email.com", class: "my-email-class", label: [class: "my-email-label-class"] %>
-      #=> <label class="my-email-label-class" for="user_email">Email</label>
-      #=> <input id="user_email" type="email" name="user[email]" placeholder: "your@email.com" value="" class="my-email-class">
+      <%= input form, :email_address, as: :email, placeholder: "your@email.com", class: "my-email-class", label: [class: "my-email-label-class"] %>
+      #=> <label class="my-email-label-class" for="user_email_address">Email Address</label>
+      #=> <input id="user_email_address" type="email" name="user[email_address]" placeholder: "your@email.com" value="" class="my-email-class">
+
+  Or a number input:
+      <%= input form, :count, as: :number %>
+      #=> <label for="asset_count">Count</label>
+      #=> <input id="asset_count" type="number" name="asset[count]" value="">
 
   If your form is using a changeset with validations (eg, with ecto and phoenix_ecto),
   then Formulator will add HTML validation attributes:
@@ -41,7 +46,14 @@ defmodule Formulator do
       #=> <label for="user_email">Email</label>
       #=> <input id="user_email" type="email" name="user[email]" required="required" pattern=".+@.+" %>
 
-  If your changeset format regex is causing problems, turn it off:
+  If you would rather not add HTML5 validation attributes, you can opt out by supplying
+  `validate: false`:
+      <%= input form, :email, as: :email, validate: false %>
+      #=> <label for="user_email">Email</label>
+      #=> <input id="user_email" type="email" name="user[email]" %>
+
+  You may want HTML5 validations, but the browser's regex engine is not working with Elixir's
+  regex engine. You can opt-out of regex validation with `validate_regex: false`:
       <%= input form, :email, as: :email, validate_regex: false %>
       #=> <label for="user_email">Email</label>
       #=> <input id="user_email" type="email" name="user[email]" required="required" %>
