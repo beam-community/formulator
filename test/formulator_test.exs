@@ -11,7 +11,7 @@ defmodule FormulatorTest do
       assert label |> to_string == ~s(<label for="_name">Name</label>)
     end
 
-    test "passing the label: [text:] option allows for overring the label" do
+    test "passing the label: [text:] option allows for overriding the label" do
       [{:safe, label} | _] = %Form{data: %{name: ""}}
         |> Formulator.input(:name, label: [text: "Customer Name"])
 
@@ -30,6 +30,13 @@ defmodule FormulatorTest do
         |> Formulator.input(:name, label: [class: "control-label"])
 
       assert label |> to_string == ~s(<label class="control-label" for="_name">Name</label>)
+    end
+
+    test "passing the label: 'text' option allows for overriding the label" do
+      [{:safe, label} | _] = %Form{data: %{name: ""}}
+        |> Formulator.input(:name, label: "Customer Name")
+
+      assert label |> to_string == ~s(<label for="_name">Customer Name</label>)
     end
   end
 

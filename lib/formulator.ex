@@ -95,6 +95,10 @@ defmodule Formulator do
     "#{input_class} #{error_class}"
   end
 
+  def build_label(form, field, label_text) when is_binary(label_text) do
+    build_label(form, field, [text: label_text])
+  end
+
   def build_label(form, field, label_options) do
     case label_options[:text] do
       nil -> label(form, field, label_options)
