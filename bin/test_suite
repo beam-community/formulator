@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+mix compile --force --warnings-as-errors
+mix test

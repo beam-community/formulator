@@ -17,4 +17,4 @@ dependencies:
 test:
   override:
     - MIX_ENV=prod mix compile --warnings-as-errors
-    - mix test
+    - bin/test_suite
