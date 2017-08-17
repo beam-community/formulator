@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+# Exit if any subcommand fails
+set -e
+
+if [ -z "$CI" ]; then
+  echo "Removing previous build artifacts"
+  rm -rf deps _build
+  asdf install
+fi
+
+echo "Installing dependencies and compiling"
+mix local.hex --force
+mix local.rebar --force
+mix deps.get
+mix deps.compile
+mix compile

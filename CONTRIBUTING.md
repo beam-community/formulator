@@ -16,7 +16,7 @@ Fork the repo.
 
 Install dependencies:
 
-    `mix deps.get`
+    `bin/setup`
 
 Make sure the tests pass:
 
