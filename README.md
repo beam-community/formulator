@@ -39,7 +39,7 @@ prefer, you can also specify the input type:
   <%= input form, :email_address, as: :email %>
 ```
 
-See `Formulator.input/3` for more examples.
+See [Formulator.input/3](https://hexdocs.pm/formulator/Formulator.html#input/3) for more examples.
 
 ### Installation
 
@@ -61,7 +61,7 @@ Formulator needs to know what module to use for the `translate_error/1`
 function. This is commonly defined by Phoenix either in
 `web/views/error_helpers.ex` or `web/gettext.ex`. Formulator can also
 be set to not validate by default; individual input options override
-the global config.
+the application config.
 ```
   # config/config.exs
   config :formulator,

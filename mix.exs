@@ -15,9 +15,6 @@ defmodule Formulator.Mixfile do
        extras: [
          "README.md",
        ],
-       deps: [
-         ecto: "https://hexdocs.pm/ecto",
-       ],
        main: "readme"
      ],
      package: package(),

@@ -48,7 +48,7 @@ defmodule Formulator do
       #=> <label for="asset_count">Count</label>
       #=> <input id="asset_count" type="number" name="asset[count]" value="">
 
-  If your form is using a changeset with validations (eg, with `Ecto` and `phoenix_ecto`),
+  If your form is using a changeset with validations (eg, with `ecto` and `phoenix_ecto`),
   then Formulator will add HTML5 validation attributes:
       <%= input form, :email, as: :email %>
       #=> <label for="user_email">Email</label>
@@ -128,7 +128,7 @@ defmodule Formulator do
   end
 
   defp add_validation_attributes(options, %{impl: impl, source: %{}} = form, field) when is_atom(impl) do
-    if should_validate?(options) do
+    if option_enabled?(options, :validate, true) do
       form
       |> Phoenix.HTML.Form.input_validations(field)
       |> Keyword.merge(options)
@@ -140,7 +140,7 @@ defmodule Formulator do
   defp add_validation_attributes(options, _, _), do: options
 
   defp add_format_validation_attribute(options, %{impl: impl, source: %{}} = form, field) when is_atom(impl) do
-    with true <- should_validate_regex?(options),
+    with true <- option_enabled?(options, :validate_regex, true),
       {:format, regex} <- form.source.validations[field]
     do
       options
@@ -152,17 +152,10 @@ defmodule Formulator do
   end
   defp add_format_validation_attribute(options, _, _), do: options
 
-  defp should_validate?(options) do
+  defp option_enabled?(options, field, default) do
     Enum.any?([
-      options[:validate] == true,
-      Application.get_env(:formulator, :validate, true) == true,
-    ])
-  end
-
-  defp should_validate_regex?(options) do
-    Enum.any?([
-      options[:validate_regex] == true,
-      Application.get_env(:formulator, :validate_regex, true) == true,
+      options[field] == true,
+      Application.get_env(:formulator, field, default) == true,
     ])
   end
 
