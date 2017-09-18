@@ -106,6 +106,10 @@ defmodule Formulator do
     end
   end
 
+  defp input_function(:checkbox), do: :checkbox
+  defp input_function(:date), do: :date_select
+  defp input_function(:datetime), do: :datetime_select
+  defp input_function(:time), do: :time_select
   defp input_function(:textarea), do: :textarea
   defp input_function(input_type), do: :"#{input_type}_input"
 end
