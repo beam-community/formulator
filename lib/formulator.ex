@@ -99,34 +99,34 @@ defmodule Formulator do
       |> add_validation_attributes(form, field)
       |> add_format_validation_attribute(form, field)
       |> Keyword.delete(:as)
+      |> Keyword.delete(:validate)
+      |> Keyword.delete(:validate_regex)
       |> Keyword.put(:class, add_error_class(input_class, error.class))
 
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
 
-  defp add_validation_attributes([validate: true] = options, %{impl: _, source: _} = form, field) do
+  defp add_validation_attributes([validate: true] = options, form, field) do
     Phoenix.HTML.Form.input_validations(form, field)
     |> Keyword.merge(options)
-    |> Keyword.delete(:validate)
   end
-  defp add_validation_attributes([validate: true] = _, form, _), do: raise_not_form_error(form)
   defp add_validation_attributes(options, _, _), do: options
 
-  defp add_format_validation_attribute([validate_regex: true] = options, %{impl: _, source: _} = form, field) do
+  defp add_format_validation_attribute([validate_regex: true] = options, form, field) do
     case form.source.validations[field] do
       {:format, regex} ->
         options
         |> Keyword.put_new(:pattern, Regex.source(regex))
-        |> Keyword.delete(:validate_regex)
       _ ->
         options
     end
   end
-  defp add_format_validation_attribute([validate_regex: true] = _, form, _), do: raise_not_form_error(form)
   defp add_format_validation_attribute(options, _, _), do: options
 
   defp add_error_class(input_class, error_class) do
-    Enum.join([input_class, error_class], " ")
+    [input_class, error_class]
+    |> Enum.join(" ")
+    |> String.trim
   end
 
   def build_label(form, field, label_text) when is_binary(label_text) do
@@ -146,14 +146,4 @@ defmodule Formulator do
   defp input_function(:time), do: :time_select
   defp input_function(:textarea), do: :textarea
   defp input_function(input_type), do: :"#{input_type}_input"
-
-  defp raise_not_form_error(form) do
-    raise ArgumentError, message: """
-      Cannot add validation attributes for form below. Make sure the form is a form struct.
-      This is commonly because the form is not a struct, but instead an atom.
-
-      Form:
-      #{form}
-    """
-  end
 end
