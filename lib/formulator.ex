@@ -15,7 +15,7 @@ defmodule Formulator do
     attribute is added to the input to improve accessibility.
 
     * `:validate` - Defaults to application config. When provided a form created with an
-    ecto changeset that contains validations, then Formulator will add HTML5
+    Ecto changeset that contains validations, then Formulator will add HTML5
     validation attributes (except regex).
 
     * `:validate_regex` - Defaults to application config. Like option `:validate`, except
@@ -39,16 +39,28 @@ defmodule Formulator do
       #=> <input id="user_name" type="text" name="user[name]" value="">
 
   Using different input types:
-      <%= input form, :email_address, as: :email, placeholder: "your@email.com", class: "my-email-class", label: [class: "my-email-label-class"] %>
-      #=> <label class="my-email-label-class" for="user_email_address">Email Address</label>
-      #=> <input id="user_email_address" type="email" name="user[email_address]" placeholder: "your@email.com" value="" class="my-email-class">
+      <%= input form, :email_address,
+          as: :email,
+          placeholder: "your@email.com",
+          class: "my-email-class",
+          label: [class: "my-email-label-class"] %>
+      #=> <label
+           class="my-email-label-class"
+           for="user_email_address">Email Address</label>
+      #=> <input
+           id="user_email_address"
+           type="email"
+           name="user[email_address]"
+           placeholder: "your@email.com"
+           value=""
+           class="my-email-class">
 
   Or a number input:
       <%= input form, :count, as: :number %>
       #=> <label for="asset_count">Count</label>
       #=> <input id="asset_count" type="number" name="asset[count]" value="">
 
-  If your form is using a changeset with validations (eg, with `ecto` and `phoenix_ecto`),
+  If your form is using a changeset with validations (eg, with `Ecto` and `phoenix_ecto`),
   then Formulator will add HTML5 validation attributes:
       <%= input form, :email, as: :email %>
       #=> <label for="user_email">Email</label>
