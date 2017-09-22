@@ -1,20 +1,13 @@
-machine:
-  environment:
-    PATH: "./bin:$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
-dependencies:
-  pre:
-    - if ! asdf | grep version; then git clone https://github.com/HashNuke/asdf.git ~/.asdf; fi
-    - asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git || true
-    - asdf plugin-add elixir https://github.com/HashNuke/asdf-elixir.git || true
-    - asdf install
-    - mix local.hex --force
-    - mix local.rebar --force
-    - yes | mix deps.get
-  cache_directories:
-    - ~/.mix
-    - ~/.asdf
-    - deps
-test:
-  override:
-    - MIX_ENV=prod mix compile --warnings-as-errors
-    - bin/test_suite
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/elixir:1.5.1
+        environment:
+          CI: true
+    working_directory: /home/circleci/formulator
+    steps:
+      - checkout
+      - run: bin/setup
+      - run: MIX_ENV=prod mix compile --warnings-as-errors
+      - run: bin/test_suite
