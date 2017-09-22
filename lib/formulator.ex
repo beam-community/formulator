@@ -14,25 +14,70 @@ defmodule Formulator do
     When given `false`, does not create a label tag. Instead, an `aria-label`
     attribute is added to the input to improve accessibility.
 
+    * `:validate` - Defaults to application config. When provided a form created with an
+    Ecto changeset that contains validations, then Formulator will add HTML5
+    validation attributes (except regex).
+
+    * `:validate_regex` - Defaults to application config. Like option `:validate`, except
+    this will add a pattern HTML5 validation. This should work with most simple
+    regex patterns, but the browser's regex engine may differ from Erlang's.
+
   ## Examples
 
   Basic input:
-      <%= input form, :email %>
-      #=> <label for="user_email">Email</label>
-      #=> <input id="user_email" name="user[email]" type="text" value="">
+      <%= input form, :name %>
+      #=> <label for="user_name">Name</label>
+      #=> <input id="user_name" name="user[name]" type="text" value="">
 
   Without a label:
-      <%= input form, :email, label: false %>
-      #=> <input id="user_name" name="user[email]" aria-label="email" type="text" value="">
+      <%= input form, :name, label: false %>
+      #=> <input id="user_name" name="user[name]" aria-label="name" type="text" value="">
 
   Passing other options:
-      <%= input form, :email, label: [class: "control-label"] %>
-      #=> <label class="control-label" for="user_email">Email</label>
-      #=> <input id="user_email" name="user[email]" type="text" value="">
+      <%= input form, :name, label: [class: "control-label"] %>
+      #=> <label class="control-label" for="user_name">Name</label>
+      #=> <input id="user_name" type="text" name="user[name]" value="">
 
-      <%= input form, :email, class: "my-email-class", label: [class: "my-email-label-class"] %>
-      #=> <label class="my-email-label-class" for="user_email">Email</label>
-      #=> <input id="user_email" name="user[email]" type="text" value="" class="my-email-class">
+  Using different input types:
+      <%= input form, :email_address,
+          as: :email,
+          placeholder: "your@email.com",
+          class: "my-email-class",
+          label: [class: "my-email-label-class"] %>
+      #=> <label
+           class="my-email-label-class"
+           for="user_email_address">Email Address</label>
+      #=> <input
+           id="user_email_address"
+           type="email"
+           name="user[email_address]"
+           placeholder: "your@email.com"
+           value=""
+           class="my-email-class">
+
+  Or a number input:
+      <%= input form, :count, as: :number %>
+      #=> <label for="asset_count">Count</label>
+      #=> <input id="asset_count" type="number" name="asset[count]" value="">
+
+  If your form is using a changeset with validations (eg, with `Ecto` and `phoenix_ecto`),
+  then Formulator will add HTML5 validation attributes:
+      <%= input form, :email, as: :email %>
+      #=> <label for="user_email">Email</label>
+      #=> <input id="user_email" type="email" name="user[email]" required="required" pattern=".+@.+" %>
+
+  If you would rather not add HTML5 validation attributes, you can opt out
+  by supplying `validate: false`:
+      <%= input form, :email, as: :email, validate: false %>
+      #=> <label for="user_email">Email</label>
+      #=> <input id="user_email" type="email" name="user[email]" %>
+
+  You may want HTML5 validations, but the browser's regex engine is not
+  working with Elixir's regex engine. You can opt-out of regex validation
+  with `validate_regex: false`:
+      <%= input form, :email, as: :email, validate_regex: false %>
+      #=> <label for="user_email">Email</label>
+      #=> <input id="user_email" type="email" name="user[email]" required="required" %>
   """
 
   @spec input(Phoenix.HTML.Form.t, atom, []) :: binary
@@ -83,16 +128,54 @@ defmodule Formulator do
   defp build_input(form, field, options, error) do
     input_type = options[:as] || :text
     input_class = options[:class] || ""
+
     options =
       options
+      |> add_validation_attributes(form, field)
+      |> add_format_validation_attribute(form, field)
       |> Keyword.delete(:as)
       |> Keyword.put(:class, add_error_class(input_class, error.class))
 
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
 
+  defp add_validation_attributes(options, %{impl: impl, source: %{}} = form, field) when is_atom(impl) do
+    if option_enabled?(options, :validate, true) do
+      form
+      |> Phoenix.HTML.Form.input_validations(field)
+      |> Keyword.merge(options)
+      |> Keyword.delete(:validate)
+    else
+      options
+    end
+  end
+  defp add_validation_attributes(options, _, _), do: options
+
+  defp add_format_validation_attribute(options, %{impl: impl, source: %{}} = form, field) when is_atom(impl) do
+    with true <- option_enabled?(options, :validate_regex, true),
+      {:format, regex} <- form.source.validations[field]
+    do
+      options
+      |> Keyword.put_new(:pattern, Regex.source(regex))
+      |> Keyword.delete(:validate_regex)
+    else
+      _ -> options
+    end
+  end
+  defp add_format_validation_attribute(options, _, _), do: options
+
+  defp option_enabled?(options, field, default) do
+    Enum.any?([
+      options[field] == true,
+      Application.get_env(:formulator, field, default) == true,
+    ])
+  end
+
   defp add_error_class(input_class, error_class) do
-    "#{input_class} #{error_class}"
+    [input_class, error_class]
+    |> Enum.reject(&(is_nil(&1)))
+    |> Enum.join(" ")
+    |> String.trim
   end
 
   def build_label(form, field, label_text) when is_binary(label_text) do
