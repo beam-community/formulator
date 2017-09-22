@@ -8,6 +8,30 @@ jobs:
     working_directory: /home/circleci/formulator
     steps:
       - checkout
+      - restore_cache:
+          keys:
+          - build-cache-{{ .Branch }}
+          - build-cache
+      - restore_cache:
+          keys:
+          - dependency-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          - dependency-cache-{{ .Branch }}
+          - dependency-cache
       - run: bin/setup
       - run: MIX_ENV=prod mix compile --warnings-as-errors
       - run: bin/test_suite
+      - save_cache:
+          key: dependency-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          paths: "deps"
+      - save_cache:
+          key: dependency-cache-{{ .Branch }}
+          paths: "deps"
+      - save_cache:
+          key: dependency-cache
+          paths: "deps"
+      - save_cache:
+          key: build-cache-{{ .Branch }}
+          paths: "_build"
+      - save_cache:
+          key: build-cache
+          paths: "_build"
