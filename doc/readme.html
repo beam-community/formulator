@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.13.0">
-    <title>Formulator – formulator v0.0.6</title>
-    <link rel="stylesheet" href="dist/app-9c1e3d5aa2.css" />
+    <meta name="generator" content="ExDoc v0.16.2">
+    <title>Formulator – formulator v0.1.6</title>
+    <link rel="stylesheet" href="dist/app-268c9dc719.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/formulator/readme.html" />
-    
-    <script src="dist/sidebar_items.js"></script>
+    <script src="dist/sidebar_items-092f1a49c3.js"></script>
   </head>
   <body data-type="extras">
-    <script>if(localStorage.getItem('night-mode')) document.body.className += ' night-mode';</script>
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
 
 <div class="main">
 <button class="sidebar-toggle">
-  <i class="icon-menu"></i>
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
 </button>
 <section class="sidebar">
 
@@ -28,15 +27,15 @@
         formulator
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.6
+        v0.1.6
       </h2>
     </div>
     
   </a>
 
   <div class="sidebar-search">
-    <i class="icon-search"></i>
-    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+    <span class="icon-search" aria-hidden="true"></span>
+    <input type="text" class="sidebar-searchInput" placeholder="search" aria-label="Search" autocomplete="off" />
   </div>
 
   <ul class="sidebar-listNav">
@@ -49,10 +48,11 @@
     
 
     
-  </ul>
 
+    
+  </ul>
+  <div class="gradient"></div>
   <ul id="full-list" class="sidebar-fullList"></ul>
-  <div class="sidebar-noResults"></div>
 </section>
 
 <section class="content">
@@ -63,10 +63,15 @@
 <p><a href="https://circleci.com/gh/thoughtbot/formulator/tree/master"><img src="https://circleci.com/gh/thoughtbot/formulator/tree/master.svg?style=svg&amp;circle-token=91e22d7df81ae0ced6b7c1b37a804f657ab1e9de" alt="CircleCI"/></a></p>
 <h1>Formulator</h1>
 <p><strong>Formulator is part of the <a href="https://thoughtbot.com/services/elixir-phoenix?utm_source=github" title="">thoughtbot Elixir family</a> of projects.</strong></p>
+<blockquote><p>This README follows master, which may not be the currently published version.
+Here are the <a href="https://hexdocs.pm/formulator">docs for the latest published version of Formulator</a></p>
+</blockquote>
 <h2 id="usage" class="section-heading">
-  <a href="#usage" class="hover-link"><i class="icon-link"></i></a>
-   Usage
-</h2><p>Formulator is a library for Phoenix to give you:</p>
+  <a href="#usage" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Usage
+</h2>
+
+<p>Formulator is a library for Phoenix to give you:</p>
 <ul>
 <li>A label for your input, based on the attribute name
 </li>
@@ -77,29 +82,41 @@
 </li>
 </ul>
 <p>You can replace the following:</p>
-<pre><code class="elixir">  &lt;%= label form, :email %&gt;
-  &lt;%= text_input form, :email %&gt;
-  &lt;%= error_tag form, :email %&gt;</code></pre>
+<pre><code class="elixir">  &lt;%= label form, :name %&gt;
+  &lt;%= text_input form, :name %&gt;
+  &lt;%= error_tag form, :name %&gt;</code></pre>
 <p>with this:</p>
-<pre><code class="elixir">  &lt;%= input form, :email %&gt;</code></pre>
+<pre><code class="elixir">  &lt;%= input form, :name %&gt;</code></pre>
 <p>You also get the added benefit of having a class of <code class="inline">has-error</code> on the input
 when there is an error associated with the attribute.</p>
 <p>By default, Formulator assumes that you want a standard text input but if you
 prefer, you can also specify the input type:</p>
-<pre><code class="elixir">  &lt;%= input form, :description, as: :textarea %&gt;</code></pre>
-<h3>Installation</h3>
+<pre><code class="elixir">  &lt;%= input form, :description, as: :textarea %&gt;
+  &lt;%= input form, :count, as: :number %&gt;
+  &lt;%= input form, :email_address, as: :email %&gt;</code></pre>
+<p>See <a href="https://hexdocs.pm/formulator/Formulator.html#input/3">Formulator.input/3</a> for more examples.</p>
+<h3 id="installation" class="section-heading">
+  <a href="#installation" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Installation
+</h3>
+
 <p>Add formulator to your list of dependencies in <code class="inline">mix.exs</code>:</p>
 <pre><code class="elixir">  def deps do
     [
-      {:formulator, &quot;~&gt; 0.0.6&quot;},
+      {:formulator, &quot;~&gt; 0.1.6&quot;},
     ]
   end</code></pre>
 <pre><code class="bash">  $ mix deps.get</code></pre>
 <p>Formulator needs to know what module to use for the <code class="inline">translate_error/1</code>
 function. This is commonly defined by Phoenix either in
-<code class="inline">web/views/error_helper.ex</code> or <code class="inline">web/gettext.ex</code>.</p>
+<code class="inline">web/views/error_helpers.ex</code> or <code class="inline">web/gettext.ex</code>. Formulator can also
+be set to not validate by default; individual input options override
+the application config.</p>
 <pre><code class="elixir">  # config/config.exs
-  config :formulator, translate_error_module: YourAppName.ErrorHelpers</code></pre>
+  config :formulator,
+    translate_error_module: YourAppName.ErrorHelpers,
+    validate: false, # defaults to true
+    validate_regex: false  # defaults to true</code></pre>
 <p>You can import the package into all your views or individually as it makes
 sense:</p>
 <pre><code class="elixir">  # web/web.ex
@@ -111,20 +128,26 @@ sense:</p>
     end
   end</code></pre>
 <h2 id="contributing" class="section-heading">
-  <a href="#contributing" class="hover-link"><i class="icon-link"></i></a>
-   Contributing
-</h2><p>See the <a href="CONTRIBUTING.md" title="">CONTRIBUTING</a> document.
+  <a href="#contributing" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Contributing
+</h2>
+
+<p>See the <a href="CONTRIBUTING.md" title="">CONTRIBUTING</a> document.
 Thank you, <a href="https://github.com/thoughtbot/formulator/graphs/contributors" title="">contributors</a>!</p>
 <h2 id="license" class="section-heading">
-  <a href="#license" class="hover-link"><i class="icon-link"></i></a>
-   License
-</h2><p>Formulator is Copyright (c) 2015 thoughtbot, inc.
+  <a href="#license" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  License
+</h2>
+
+<p>Formulator is Copyright (c) 2017 thoughtbot, inc.
 It is free software, and may be redistributed
 under the terms specified in the <a href="/LICENSE" title="">LICENSE</a> file.</p>
 <h2 id="about" class="section-heading">
-  <a href="#about" class="hover-link"><i class="icon-link"></i></a>
-   About
-</h2><p><img src="https://thoughtbot.com/logo.png" alt="thoughtbot"/></p>
+  <a href="#about" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  About
+</h2>
+
+<p><a href="https://thoughtbot.com?utm_source=github" title="">![thoughtbot][thoughtbot-logo]</a></p>
 <p>Formulator is maintained and funded by thoughtbot, inc.
 The names and logos for thoughtbot are trademarks of thoughtbot, inc.</p>
 <p>We love open source software, Elixir, and Phoenix. See <a href="https://thoughtbot.com/services/elixir-phoenix?utm_source=github" title="">our other Elixir
@@ -135,20 +158,20 @@ to design, develop, and grow your product.</p>
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.13.0),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.16.2),
           </span>
           <span class="line">
             designed by
             <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
             </span>
         </p>
-        <button class="night-mode-toggle" />
+        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
       </footer>
     </div>
   </div>
 </section>
 </div>
-  <script src="dist/app-21f1a20b9e.js"></script>
+  <script src="dist/app-4988ddd06b.js"></script>
   </body>
 </html>
 
