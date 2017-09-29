@@ -10,10 +10,6 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - build-cache-{{ .Branch }}
-          - build-cache
-      - restore_cache:
-          keys:
           - dependency-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
           - dependency-cache-{{ .Branch }}
           - dependency-cache
@@ -29,9 +25,3 @@ jobs:
       - save_cache:
           key: dependency-cache
           paths: "deps"
-      - save_cache:
-          key: build-cache-{{ .Branch }}
-          paths: "_build"
-      - save_cache:
-          key: build-cache
-          paths: "_build"
