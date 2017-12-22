@@ -4,8 +4,8 @@
 
 **Formulator is part of the [thoughtbot Elixir family][elixir-phoenix] of projects.**
 
-> This README follows master, which may not be the currently published version.
-> Here are the [docs for the latest published version of Formulator](https://hexdocs.pm/formulator)
+This README follows master, which may not be the currently published version.
+Here are the [docs for the latest published version of Formulator](https://hexdocs.pm/formulator)
 
 ## Usage
 
