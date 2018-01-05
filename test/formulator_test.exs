@@ -223,6 +223,19 @@ defmodule FormulatorTest do
     end
   end
 
+  describe "input - validation - conn" do
+    test "ignores validations for conn sourced forms" do
+      input =
+        %{email: "test_domain.com"}
+        |> prepare_conn_form
+        |> Formulator.input(:email_address, validate_regex: true)
+        |> extract_element(:second)
+        |> to_string
+
+      refute input =~ ~s(pattern)
+    end
+  end
+
   defp prepare_form(attrs) do
     %Form{data: attrs}
   end
@@ -244,6 +257,15 @@ defmodule FormulatorTest do
       impl: Phoenix.HTML.FormData.Ecto.Changeset,
       name: SampleSchema,
       source: apply(SampleSchema, changeset, [%SampleSchema{}, attrs])
+    }
+  end
+
+  defp prepare_conn_form(attrs) do
+    %Form{
+      data: attrs,
+      impl: Phoenix.HTML.FormData.Plug.Conn,
+      name: :conn_form,
+      source: %Plug.Conn{}
     }
   end
 end

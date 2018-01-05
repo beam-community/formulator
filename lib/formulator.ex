@@ -139,7 +139,7 @@ defmodule Formulator do
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
 
-  defp add_validation_attributes(options, %{impl: impl, source: %{}} = form, field) when is_atom(impl) do
+  defp add_validation_attributes(options, %{impl: impl, source: %{validations: _}} = form, field) when is_atom(impl) do
     if option_enabled?(options, :validate, true) do
       form
       |> Phoenix.HTML.Form.input_validations(field)
@@ -151,7 +151,7 @@ defmodule Formulator do
   end
   defp add_validation_attributes(options, _, _), do: options
 
-  defp add_format_validation_attribute(options, %{impl: impl, source: %{}} = form, field) when is_atom(impl) do
+  defp add_format_validation_attribute(options, %{impl: impl, source: %{validations: _}} = form, field) when is_atom(impl) do
     with true <- option_enabled?(options, :validate_regex, true),
       {:format, regex} <- form.source.validations[field]
     do
