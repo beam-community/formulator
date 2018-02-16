@@ -22,21 +22,32 @@ defmodule Formulator do
     this will add a pattern HTML5 validation. This should work with most simple
     regex patterns, but the browser's regex engine may differ from Erlang's.
 
+  * `:wrapper_class` - This allows you to add a class to the div
+    that wraps the input and label. This can also be set in your config:
+    `config :formulator, wrapper_class: "input-wrapper"
+
+
   ## Examples
 
   Basic input:
       <%= input form, :name %>
-      #=> <label for="user_name">Name</label>
-      #=> <input id="user_name" name="user[name]" type="text" value="">
+      #=> <div>
+      #=>   <label for="user_name">Name</label>
+      #=>   <input id="user_name" name="user[name]" type="text" value="">
+      #=> </div>
 
   Without a label:
       <%= input form, :name, label: false %>
-      #=> <input id="user_name" name="user[name]" aria-label="name" type="text" value="">
+      #=> <div>
+      #=>   <input id="user_name" name="user[name]" aria-label="name" type="text" value="">
+      #=> </div>
 
   Passing other options:
       <%= input form, :name, label: [class: "control-label"] %>
-      #=> <label class="control-label" for="user_name">Name</label>
-      #=> <input id="user_name" type="text" name="user[name]" value="">
+      #=> <div>
+      #=>   <label class="control-label" for="user_name">Name</label>
+      #=>   <input id="user_name" type="text" name="user[name]" value="">
+      #=> </div>
 
   Using different input types:
       <%= input form, :email_address,
@@ -44,50 +55,73 @@ defmodule Formulator do
           placeholder: "your@email.com",
           class: "my-email-class",
           label: [class: "my-email-label-class"] %>
-      #=> <label
-           class="my-email-label-class"
-           for="user_email_address">Email Address</label>
-      #=> <input
-           id="user_email_address"
-           type="email"
-           name="user[email_address]"
-           placeholder: "your@email.com"
-           value=""
-           class="my-email-class">
+      #=> <div>
+      #=>   <label
+             class="my-email-label-class"
+             for="user_email_address">Email Address</label>
+      #=>   <input
+             id="user_email_address"
+             type="email"
+             name="user[email_address]"
+             placeholder: "your@email.com"
+             value=""
+             class="my-email-class">
+      #=> </div>
 
   Or a number input:
       <%= input form, :count, as: :number %>
-      #=> <label for="asset_count">Count</label>
-      #=> <input id="asset_count" type="number" name="asset[count]" value="">
+      #=> <div>
+      #=>   <label for="asset_count">Count</label>
+      #=>   <input id="asset_count" type="number" name="asset[count]" value="">
+      #=> <div>
 
   If your form is using a changeset with validations (eg, with `Ecto` and `phoenix_ecto`),
   then Formulator will add HTML5 validation attributes:
       <%= input form, :email, as: :email %>
-      #=> <label for="user_email">Email</label>
-      #=> <input id="user_email" type="email" name="user[email]" required="required" pattern=".+@.+" %>
+      #=> <div>
+      #=>   <label for="user_email">Email</label>
+      #=>   <input id="user_email" type="email" name="user[email]" required="required" pattern=".+@.+" %>
+      #=> <div>
 
   If you would rather not add HTML5 validation attributes, you can opt out
   by supplying `validate: false`:
       <%= input form, :email, as: :email, validate: false %>
-      #=> <label for="user_email">Email</label>
-      #=> <input id="user_email" type="email" name="user[email]" %>
+      #=> <div>
+      #=>   <label for="user_email">Email</label>
+      #=>   <input id="user_email" type="email" name="user[email]" %>
+      #=> </div>
 
   You may want HTML5 validations, but the browser's regex engine is not
   working with Elixir's regex engine. You can opt-out of regex validation
   with `validate_regex: false`:
       <%= input form, :email, as: :email, validate_regex: false %>
-      #=> <label for="user_email">Email</label>
-      #=> <input id="user_email" type="email" name="user[email]" required="required" %>
+      #=> <div>
+      #=>   <label for="user_email">Email</label>
+      #=>   <input id="user_email" type="email" name="user[email]" required="required" %>
+      #=> </div>
   """
 
   @spec input(Phoenix.HTML.Form.t, atom, []) :: binary
   def input(form, field, options \\ []) do
-    {label_options, options} = extract_label_options(options)
+    form
+    |> build_input_and_associated_tags(field, options)
+    |> add_wrapper(options)
+  end
 
+  defp build_input_and_associated_tags(form, field, options) do
+    {label_options, options} = extract_label_options(options)
     case label_options do
       false -> input_without_label(form, field, options)
       _ -> input_with_label(form, field, label_options, options)
     end
+  end
+
+  defp add_wrapper(html, options) do
+    [content_tag(:div, html, class: wrapper_class(options))]
+  end
+
+  defp wrapper_class(options) do
+    options[:wrapper_class] || Application.get_env(:formulator, :wrapper_class)
   end
 
   defp extract_label_options(options) do

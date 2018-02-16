@@ -67,7 +67,8 @@ the application config.
   config :formulator,
     translate_error_module: YourAppName.ErrorHelpers,
     validate: false, # defaults to true
-    validate_regex: false  # defaults to true
+    validate_regex: false,  # defaults to true
+    wrapping_class: "input-set"  # defaults to nil
 ```
 
 You can import the package into all your views or individually as it makes
