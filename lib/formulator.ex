@@ -111,7 +111,10 @@ defmodule Formulator do
     end
   end
 
-  defp input_wrapper(form, field, options, label_options, fun) do
+  def input_wrapper(form, field, options, label_options \\ nil, fun) do
+    if label_options == nil do
+      {label_options, options} = extract_label_options(options)
+    end
     [
       content_tag(
         :div,
