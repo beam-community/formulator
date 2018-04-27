@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/elixir:1.5.3
+    working_directory: /home/circleci/formulator
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - dependency-cache-{{ arch }}-{{ .Branch }}-{{ checksum "mix.lock" }}
+          - dependency-cache-{{ arch }}-{{ .Branch }}
+          - dependency-cache-{{ arch }}
+      - run: mix local.hex --force && mix local.rebar --force && mix deps.get
+      - save_cache:
+          key: dependency-cache-{{ arch }}-{{ .Branch }}-{{ checksum "mix.lock" }}
+          paths: "deps"
+      - save_cache:
+          key: dependency-cache-{{ arch }}-{{ .Branch }}
+          paths: "deps"
+      - save_cache:
+          key: dependency-cache-{{ arch }}
+          paths: "deps"
+      - run: bin/test_suite
+experimental:
+  notify:
+    branches:
+      only:
+        - master
