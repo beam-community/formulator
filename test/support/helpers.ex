@@ -3,7 +3,7 @@ defmodule Formulator.Test.Helpers do
   alias Formulator.Test.SampleSchema
 
   def prepare_form(attrs) do
-    %Form{data: attrs}
+    %Form{id: :fake, data: attrs}
   end
 
   def extract_html(element) when not is_list(element) do
