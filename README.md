@@ -1,3 +1,6 @@
+<p align="center"><img src="logo/horizontal.png" alt="formulator" height="200px"></p>
+
+
 [![CircleCI](https://circleci.com/gh/thoughtbot/formulator/tree/master.svg?style=svg&circle-token=91e22d7df81ae0ced6b7c1b37a804f657ab1e9de)](https://circleci.com/gh/thoughtbot/formulator/tree/master)
 
 # Formulator
