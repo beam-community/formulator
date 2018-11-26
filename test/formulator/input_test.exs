@@ -154,6 +154,17 @@ defmodule Formulator.InputTest do
       assert input =~ ~s(pattern)
     end
 
+    test "when there is a validation, but validate_regex is false, does not add 'format' validation option for given form" do
+      input =
+        %{email: "test@domain.com"}
+        |> prepare_changeset_form(:validate)
+        |> Input.build_input(:email_address, validate_regex: false)
+        |> extract_html
+        |> to_string
+
+      refute input =~ ~s(pattern)
+    end
+
     test "when there's not a validation, does not add 'min' validation option for given form" do
       input =
         %{email: "test@domain.com"}

@@ -43,10 +43,12 @@ defmodule Formulator.Input do
   defp add_format_validation_attribute(options, _, _), do: options
 
   defp option_enabled?(options, field, default) do
-    Enum.any?([
-      options[field] == true,
-      Application.get_env(:formulator, field, default) == true,
-    ])
+    cond do
+      Keyword.get(options, field) == false -> false
+      Keyword.get(options, field) == true -> true
+      Application.get_env(:formulator, field, default) == true -> true
+      true -> false
+    end
   end
 
   defp add_error_class(input_class, error_class) do
