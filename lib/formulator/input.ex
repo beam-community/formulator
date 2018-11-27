@@ -47,7 +47,7 @@ defmodule Formulator.Input do
       Keyword.get(options, field) == false -> false
       Keyword.get(options, field) == true -> true
       Application.get_env(:formulator, field, default) == true -> true
-      true -> false
+      _ -> false
     end
   end
 
