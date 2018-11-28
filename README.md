@@ -84,6 +84,20 @@ sense:
   end
 ```
 
+## Releases
+
+To create a new release, use the `bin/release` script. You must provide the
+current version number and the new version number: `bin/release 0.2 0.3`.
+
+If you need hex permissions, please ask someone in the thoughtbot #elixir slack
+channel.
+
+This will create a new commit with the updated fields and publish to hex.
+
+Please be sure to follow [Semver] when creating a new release
+
+[Semver]: https://semver.org/
+
 ## Contributing
 
 See the [CONTRIBUTING] document.
