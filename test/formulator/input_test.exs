@@ -119,6 +119,20 @@ defmodule Formulator.InputTest do
   end
 
   describe "build_input - validation - number" do
+    test "when there is a validation, and the application config is false, do not add validation to input" do
+      Application.put_env(:formulator, :validate, false)
+      input =
+        %{number: "321"}
+        |> prepare_changeset_form(:validate)
+        |> Input.build_input(:number, [])
+        |> extract_html
+        |> to_string
+
+      refute input =~ ~s(min)
+
+      Application.delete_env(:formulator, :validate)
+    end
+
     test "when there is a validation, adds 'min' validation option for given form" do
       input =
         %{number: "321"}
@@ -143,6 +157,20 @@ defmodule Formulator.InputTest do
   end
 
   describe "build_input - validation - format" do
+    test "when there is a validation, and the application config is false, do not add validation to input" do
+      Application.put_env(:formulator, :validate_regex, false)
+      input =
+        %{email: "test@domain.com"}
+        |> prepare_changeset_form(:validate)
+        |> Input.build_input(:email_address, [])
+        |> extract_html
+        |> to_string
+
+      refute input =~ ~s(pattern)
+
+      Application.delete_env(:formulator, :validate_regex)
+    end
+
     test "when there is a validation, adds 'format' validation option for given form" do
       input =
         %{email: "test@domain.com"}
@@ -154,7 +182,22 @@ defmodule Formulator.InputTest do
       assert input =~ ~s(pattern)
     end
 
-    test "when there's not a validation, does not add 'min' validation option for given form" do
+    test "when there is a validation, but validate_regex is false, does not add 'format' validation option for given form" do
+      Application.put_env(:formulator, :validate_regex, true)
+
+      input =
+        %{email: "test@domain.com"}
+        |> prepare_changeset_form(:validate)
+        |> Input.build_input(:email_address, validate_regex: false)
+        |> extract_html
+        |> to_string
+
+      refute input =~ ~s(pattern)
+
+      Application.delete_env(:formulator, :validate_regex)
+    end
+
+    test "when there's not a validation, does not add 'format' validation option for given form" do
       input =
         %{email: "test@domain.com"}
         |> prepare_changeset_form(:novalidate)
