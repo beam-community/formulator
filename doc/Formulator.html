@@ -4,19 +4,27 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.16.2">
-    <title>Formulator – formulator v0.1.7</title>
-    <link rel="stylesheet" href="dist/app-268c9dc719.css" />
+    <meta name="generator" content="ExDoc v0.18.3">
+    <title>Formulator – formulator v0.1.8</title>
+    <link rel="stylesheet" href="dist/app-480ffdc169.css" />
     
-    <script src="dist/sidebar_items-092f1a49c3.js"></script>
+    <script src="dist/sidebar_items-d0b9161453.js"></script>
+    
+    
+    
+    
   </head>
   <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
 
     <div class="main">
-<button class="sidebar-toggle">
+<button class="sidebar-button sidebar-toggle">
   <span class="icon-menu" aria-hidden="true"></span>
   <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
 </button>
 <section class="sidebar">
 
@@ -27,24 +35,24 @@
         formulator
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.7
+        v0.1.8
       </h2>
     </div>
     
   </a>
 
-  <div class="sidebar-search">
-    <span class="icon-search" aria-hidden="true"></span>
-    <input type="text" class="sidebar-searchInput" placeholder="search" aria-label="Search" autocomplete="off" />
-  </div>
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
 
   <ul class="sidebar-listNav">
     <li><a id="extras-list" href="#full-list">Pages</a></li>
 
     
       <li><a id="modules-list" href="#full-list">Modules</a></li>
-    
-
     
 
     
@@ -61,7 +69,7 @@
 
 
       <h1>
-        <small class="visible-xs">formulator v0.1.7</small>
+        <small class="visible-xs">formulator v0.1.8</small>
         Formulator
         
       </h1>
@@ -123,6 +131,7 @@ tag with the errors</p>
           </h1>
           <div class="detail" id="build_label/3">
   
+  
   <div class="detail-header">
     <a href="#build_label/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
@@ -139,6 +148,7 @@ tag with the errors</p>
 </div>
 <div class="detail" id="input/3">
   
+  
     <span id="input/2"></span>
   
   <div class="detail-header">
@@ -152,7 +162,7 @@ tag with the errors</p>
     
       <div class="specs">
         
-          <pre>input(<a href="https://hexdocs.pm/phoenix_html/2.10.4/Phoenix.HTML.Form.html#t:t/0">Phoenix.HTML.Form.t</a>, atom, []) :: binary</pre>
+          <pre>input(<a href="https://hexdocs.pm/phoenix_html/2.10.4/Phoenix.HTML.Form.html#t:t/0">Phoenix.HTML.Form.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>(), []) :: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">binary</a>()</pre>
         
       </div>
     
@@ -180,59 +190,85 @@ tag with the errors.</p>
   this will add a pattern HTML5 validation. This should work with most simple
   regex patterns, but the browser’s regex engine may differ from Erlang’s.</p>
 </li>
-</ul>
-<h2 id="input/3-examples" class="section-heading">
-  <a href="#input/3-examples" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
-  Examples
-</h2>
+<li><p><code class="inline">:wrapper_class</code> - This allows you to add a class to the div
+  that wraps the input and label. This can also be set in your config:
+  <code class="inline">config :formulator, wrapper_class: &quot;input-wrapper&quot;
 
-<p>Basic input:</p>
-<pre><code class="elixir">&lt;%= input form, :name %&gt;
-#=&gt; &lt;label for=&quot;user_name&quot;&gt;Name&lt;/label&gt;
-#=&gt; &lt;input id=&quot;user_name&quot; name=&quot;user[name]&quot; type=&quot;text&quot; value=&quot;&quot;&gt;</code></pre>
-<p>Without a label:</p>
-<pre><code class="elixir">&lt;%= input form, :name, label: false %&gt;
-#=&gt; &lt;input id=&quot;user_name&quot; name=&quot;user[name]&quot; aria-label=&quot;name&quot; type=&quot;text&quot; value=&quot;&quot;&gt;</code></pre>
-<p>Passing other options:</p>
-<pre><code class="elixir">&lt;%= input form, :name, label: [class: &quot;control-label&quot;] %&gt;
-#=&gt; &lt;label class=&quot;control-label&quot; for=&quot;user_name&quot;&gt;Name&lt;/label&gt;
-#=&gt; &lt;input id=&quot;user_name&quot; type=&quot;text&quot; name=&quot;user[name]&quot; value=&quot;&quot;&gt;</code></pre>
-<p>Using different input types:</p>
-<pre><code class="elixir">&lt;%= input form, :email_address,
-    as: :email,
-    placeholder: &quot;your@email.com&quot;,
-    class: &quot;my-email-class&quot;,
-    label: [class: &quot;my-email-label-class&quot;] %&gt;
-#=&gt; &lt;label
-     class=&quot;my-email-label-class&quot;
-     for=&quot;user_email_address&quot;&gt;Email Address&lt;/label&gt;
-#=&gt; &lt;input
-     id=&quot;user_email_address&quot;
-     type=&quot;email&quot;
-     name=&quot;user[email_address]&quot;
-     placeholder: &quot;your@email.com&quot;
-     value=&quot;&quot;
-     class=&quot;my-email-class&quot;&gt;</code></pre>
-<p>Or a number input:</p>
-<pre><code class="elixir">&lt;%= input form, :count, as: :number %&gt;
-#=&gt; &lt;label for=&quot;asset_count&quot;&gt;Count&lt;/label&gt;
-#=&gt; &lt;input id=&quot;asset_count&quot; type=&quot;number&quot; name=&quot;asset[count]&quot; value=&quot;&quot;&gt;</code></pre>
-<p>If your form is using a changeset with validations (eg, with <code class="inline">Ecto</code> and <code class="inline">phoenix_ecto</code>),
-then Formulator will add HTML5 validation attributes:</p>
-<pre><code class="elixir">&lt;%= input form, :email, as: :email %&gt;
-#=&gt; &lt;label for=&quot;user_email&quot;&gt;Email&lt;/label&gt;
-#=&gt; &lt;input id=&quot;user_email&quot; type=&quot;email&quot; name=&quot;user[email]&quot; required=&quot;required&quot; pattern=&quot;.+@.+&quot; %&gt;</code></pre>
-<p>If you would rather not add HTML5 validation attributes, you can opt out
-by supplying <code class="inline">validate: false</code>:</p>
-<pre><code class="elixir">&lt;%= input form, :email, as: :email, validate: false %&gt;
-#=&gt; &lt;label for=&quot;user_email&quot;&gt;Email&lt;/label&gt;
-#=&gt; &lt;input id=&quot;user_email&quot; type=&quot;email&quot; name=&quot;user[email]&quot; %&gt;</code></pre>
-<p>You may want HTML5 validations, but the browser’s regex engine is not
-working with Elixir’s regex engine. You can opt-out of regex validation
-with <code class="inline">validate_regex: false</code>:</p>
-<pre><code class="elixir">&lt;%= input form, :email, as: :email, validate_regex: false %&gt;
-#=&gt; &lt;label for=&quot;user_email&quot;&gt;Email&lt;/label&gt;
-#=&gt; &lt;input id=&quot;user_email&quot; type=&quot;email&quot; name=&quot;user[email]&quot; required=&quot;required&quot; %&gt;</code></pre>
+
+## Examples
+
+Basic input:
+    &lt;%= input form, :name %&gt;
+    #=&gt; &lt;div&gt;
+    #=&gt;   &lt;label for=&quot;user_name&quot;&gt;Name&lt;/label&gt;
+    #=&gt;   &lt;input id=&quot;user_name&quot; name=&quot;user[name]&quot; type=&quot;text&quot; value=&quot;&quot;&gt;
+    #=&gt; &lt;/div&gt;
+
+Without a label:
+    &lt;%= input form, :name, label: false %&gt;
+    #=&gt; &lt;div&gt;
+    #=&gt;   &lt;input id=&quot;user_name&quot; name=&quot;user[name]&quot; aria-label=&quot;name&quot; type=&quot;text&quot; value=&quot;&quot;&gt;
+    #=&gt; &lt;/div&gt;
+
+Passing other options:
+    &lt;%= input form, :name, label: [class: &quot;control-label&quot;] %&gt;
+    #=&gt; &lt;div&gt;
+    #=&gt;   &lt;label class=&quot;control-label&quot; for=&quot;user_name&quot;&gt;Name&lt;/label&gt;
+    #=&gt;   &lt;input id=&quot;user_name&quot; type=&quot;text&quot; name=&quot;user[name]&quot; value=&quot;&quot;&gt;
+    #=&gt; &lt;/div&gt;
+
+Using different input types:
+    &lt;%= input form, :email_address,
+        as: :email,
+        placeholder: &quot;your@email.com&quot;,
+        class: &quot;my-email-class&quot;,
+        label: [class: &quot;my-email-label-class&quot;] %&gt;
+    #=&gt; &lt;div&gt;
+    #=&gt;   &lt;label
+           class=&quot;my-email-label-class&quot;
+           for=&quot;user_email_address&quot;&gt;Email Address&lt;/label&gt;
+    #=&gt;   &lt;input
+           id=&quot;user_email_address&quot;
+           type=&quot;email&quot;
+           name=&quot;user[email_address]&quot;
+           placeholder: &quot;your@email.com&quot;
+           value=&quot;&quot;
+           class=&quot;my-email-class&quot;&gt;
+    #=&gt; &lt;/div&gt;
+
+Or a number input:
+    &lt;%= input form, :count, as: :number %&gt;
+    #=&gt; &lt;div&gt;
+    #=&gt;   &lt;label for=&quot;asset_count&quot;&gt;Count&lt;/label&gt;
+    #=&gt;   &lt;input id=&quot;asset_count&quot; type=&quot;number&quot; name=&quot;asset[count]&quot; value=&quot;&quot;&gt;
+    #=&gt; &lt;div&gt;
+
+If your form is using a changeset with validations (eg, with</code>Ecto<code class="inline">and</code>phoenix_ecto<code class="inline">),
+then Formulator will add HTML5 validation attributes:
+    &lt;%= input form, :email, as: :email %&gt;
+    #=&gt; &lt;div&gt;
+    #=&gt;   &lt;label for=&quot;user_email&quot;&gt;Email&lt;/label&gt;
+    #=&gt;   &lt;input id=&quot;user_email&quot; type=&quot;email&quot; name=&quot;user[email]&quot; required=&quot;required&quot; pattern=&quot;.+@.+&quot; %&gt;
+    #=&gt; &lt;div&gt;
+
+If you would rather not add HTML5 validation attributes, you can opt out
+by supplying</code>validate: false<code class="inline">:
+    &lt;%= input form, :email, as: :email, validate: false %&gt;
+    #=&gt; &lt;div&gt;
+    #=&gt;   &lt;label for=&quot;user_email&quot;&gt;Email&lt;/label&gt;
+    #=&gt;   &lt;input id=&quot;user_email&quot; type=&quot;email&quot; name=&quot;user[email]&quot; %&gt;
+    #=&gt; &lt;/div&gt;
+
+You may want HTML5 validations, but the browser&#39;s regex engine is not
+working with Elixir&#39;s regex engine. You can opt-out of regex validation
+with</code>validate_regex: false`:
+    &lt;%= input form, :email, as: :email, validate_regex: false %&gt;
+    #=&gt; <div>
+    #=&gt;   <label for="user_email">Email</label>
+    #=&gt;   <input id="user_email" type="email" name="user[email]" required="required" %>
+    #=&gt; </div></p>
+</li>
+</ul>
 
   </section>
 </div>
@@ -245,20 +281,23 @@ with <code class="inline">validate_regex: false</code>:</p>
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.16.2),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.18.3),
           </span>
           <span class="line">
             designed by
             <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
             </span>
         </p>
-        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
       </footer>
     </div>
   </div>
 </section>
 </div>
-  <script src="dist/app-4988ddd06b.js"></script>
+  <script src="dist/app-9bd040e5e5.js"></script>
+  
+  
+  
+  
   </body>
 </html>
 

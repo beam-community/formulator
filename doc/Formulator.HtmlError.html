@@ -4,19 +4,27 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.16.2">
-    <title>Formulator.HtmlError – formulator v0.1.7</title>
-    <link rel="stylesheet" href="dist/app-268c9dc719.css" />
+    <meta name="generator" content="ExDoc v0.18.3">
+    <title>Formulator.HtmlError – formulator v0.1.8</title>
+    <link rel="stylesheet" href="dist/app-480ffdc169.css" />
     
-    <script src="dist/sidebar_items-092f1a49c3.js"></script>
+    <script src="dist/sidebar_items-d0b9161453.js"></script>
+    
+    
+    
+    
   </head>
   <body data-type="modules">
     <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
 
     <div class="main">
-<button class="sidebar-toggle">
+<button class="sidebar-button sidebar-toggle">
   <span class="icon-menu" aria-hidden="true"></span>
   <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
 </button>
 <section class="sidebar">
 
@@ -27,24 +35,24 @@
         formulator
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.7
+        v0.1.8
       </h2>
     </div>
     
   </a>
 
-  <div class="sidebar-search">
-    <span class="icon-search" aria-hidden="true"></span>
-    <input type="text" class="sidebar-searchInput" placeholder="search" aria-label="Search" autocomplete="off" />
-  </div>
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
 
   <ul class="sidebar-listNav">
     <li><a id="extras-list" href="#full-list">Pages</a></li>
 
     
       <li><a id="modules-list" href="#full-list">Modules</a></li>
-    
-
     
 
     
@@ -61,7 +69,7 @@
 
 
       <h1>
-        <small class="visible-xs">formulator v0.1.7</small>
+        <small class="visible-xs">formulator v0.1.8</small>
         Formulator.HtmlError
         
       </h1>
@@ -115,6 +123,7 @@
           </h1>
           <div class="detail" id="html_error/2">
   
+  
   <div class="detail-header">
     <a href="#html_error/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
@@ -126,7 +135,7 @@
     
       <div class="specs">
         
-          <pre>html_error(<a href="https://hexdocs.pm/phoenix_html/2.10.4/Phoenix.HTML.Form.html#t:t/0">Phoenix.HTML.Form.t</a>, atom) :: %Formulator.HtmlError{class: term, html: term}</pre>
+          <pre>html_error(<a href="https://hexdocs.pm/phoenix_html/2.10.4/Phoenix.HTML.Form.html#t:t/0">Phoenix.HTML.Form.t</a>(), <a href="https://hexdocs.pm/elixir/typespecs.html#basic-types">atom</a>()) :: %Formulator.HtmlError{class: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>(), html: <a href="https://hexdocs.pm/elixir/typespecs.html#built-in-types">term</a>()}</pre>
         
       </div>
     
@@ -149,20 +158,23 @@ in the <code class="inline">:html</code> field.</p>
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.16.2),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.18.3),
           </span>
           <span class="line">
             designed by
             <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
             </span>
         </p>
-        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
       </footer>
     </div>
   </div>
 </section>
 </div>
-  <script src="dist/app-4988ddd06b.js"></script>
+  <script src="dist/app-9bd040e5e5.js"></script>
+  
+  
+  
+  
   </body>
 </html>
 
