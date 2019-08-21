@@ -25,7 +25,7 @@ defmodule Formulator do
 
   * `:wrapper_class` - This allows you to add a class to the div
     that wraps the input and label. This can also be set in your config:
-    `config :formulator, wrapper_class: "input-wrapper"
+    `config :formulator, wrapper_class: "input-wrapper"`
 
 
   ## Examples
