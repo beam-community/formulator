@@ -31,7 +31,7 @@ defmodule Formulator.Mixfile do
   defp deps do
     [
       {:ecto, "~> 2.1", only: :test, optional: true},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.18.0", only: :dev, runtime: false},
       {:gettext, ">= 0.11.0"},
       {:phoenix_ecto, "~> 3.2", only: :test, optional: true},
       {:phoenix_html, "~> 2.4"},
