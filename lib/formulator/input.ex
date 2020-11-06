@@ -13,6 +13,7 @@ defmodule Formulator.Input do
       |> add_format_validation_attribute(form, field)
       |> Keyword.delete(:as)
       |> Keyword.put(:class, add_error_class(input_class, error.class))
+      |> Keyword.put(:aria_describedby, "#{field}-error")
 
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
