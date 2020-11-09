@@ -17,10 +17,7 @@ defmodule Formulator.HtmlError do
   def html_error(form, field) do
     case form.errors[field] do
       nil ->
-        %__MODULE__{
-          class: nil,
-          html: Formulator.HtmlBuilder.build_error_span(nil, field)
-        }
+        %__MODULE__{}
       error ->
         %__MODULE__{
           class: "has-error",

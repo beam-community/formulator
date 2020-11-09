@@ -13,7 +13,7 @@ defmodule Formulator.Input do
       |> add_format_validation_attribute(form, field)
       |> Keyword.delete(:as)
       |> Keyword.put(:class, add_error_class(input_class, error.class))
-      |> Keyword.put(:aria_describedby, "#{field}-error")
+      |> add_aria_describedby(form, field)
 
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
@@ -57,6 +57,13 @@ defmodule Formulator.Input do
     |> Enum.reject(&(is_nil(&1)))
     |> Enum.join(" ")
     |> String.trim
+  end
+
+  defp add_aria_describedby(options, form, field) do
+    case form.errors[field] do
+      nil -> options
+      error -> options |> Keyword.put(:aria_describedby, "#{field}-error")
+    end
   end
 
   defp build_aria_label(field) do
