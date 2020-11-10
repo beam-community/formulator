@@ -5,7 +5,7 @@ defmodule Formulator.Mixfile do
   def project do
     [app: :formulator,
      version: @version,
-     elixir: "~> 1.3",
+     elixir: "~> 1.6",
      elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
