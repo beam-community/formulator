@@ -5,7 +5,8 @@ defmodule Formulator.HtmlBuilder do
     content_tag :span,
     translate_error(error),
     class: "field-error",
-    "data-role": "#{field}-error"
+    "data-role": "#{field}-error",
+    id: "#{field}-error"
   end
 
   @error_message """
