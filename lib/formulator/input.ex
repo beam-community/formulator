@@ -62,7 +62,7 @@ defmodule Formulator.Input do
   defp add_aria_describedby(options, form, field) do
     case form.errors[field] do
       nil -> options
-      error -> options |> Keyword.put(:aria_describedby, "#{field}-error")
+      _error -> options |> Keyword.put(:aria_describedby, "#{field}-error")
     end
   end
 
