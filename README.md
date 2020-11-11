@@ -103,7 +103,7 @@ Please be sure to follow [Semver] when creating a new release
 See the [CONTRIBUTING] document.
 Thank you, [contributors]!
 
-  [CONTRIBUTING]: CONTRIBUTING.md
+  [CONTRIBUTING]: https://github.com/thoughtbot/formulator/blob/master/CONTRIBUTING.md
   [contributors]: https://github.com/thoughtbot/formulator/graphs/contributors
 
 ## License
@@ -112,7 +112,7 @@ Formulator is Copyright (c) 2017 thoughtbot, inc.
 It is free software, and may be redistributed
 under the terms specified in the [LICENSE] file.
 
-  [LICENSE]: /LICENSE
+  [LICENSE]: https://github.com/thoughtbot/formulator/blob/master/LICENSE
 
 ## About
 
