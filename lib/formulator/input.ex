@@ -2,8 +2,8 @@ defmodule Formulator.Input do
   use Phoenix.HTML
   alias Formulator.HtmlError
 
-  def build_input(form, field, options, error \\ %HtmlError{}) do
-    options = options ++ build_aria_label(field)
+  def build_input(form, field, options, label_options, error \\ %HtmlError{}) do
+    options = options ++ build_aria_label(field, label_options)
     input_type = options[:as] || :text
     input_class = options[:class] || ""
 
@@ -66,8 +66,11 @@ defmodule Formulator.Input do
     end
   end
 
-  defp build_aria_label(field) do
-    ["aria-label": format_label(field)]
+  defp build_aria_label(field, label_options) do
+    cond do
+      label_options == false -> ["aria-label": format_label(field)]
+      true -> []
+    end
   end
 
   defp format_label(field) do
