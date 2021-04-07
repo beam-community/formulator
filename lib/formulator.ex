@@ -107,7 +107,7 @@ defmodule Formulator do
     {label_options, options} = extract_label_options(options)
 
     input_wrapper form, field, options, label_options, fn error ->
-      build_input(form, field, options, error)
+      build_input(form, field, options, label_options, error)
     end
   end
 
