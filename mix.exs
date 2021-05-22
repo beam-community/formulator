@@ -21,10 +21,6 @@ defmodule Formulator.Mixfile do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  def application do
-    [applications: [:logger]]
-  end
-
   defp deps do
     [
       {:gettext, ">= 0.11.0"},
