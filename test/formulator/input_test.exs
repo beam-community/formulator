@@ -9,7 +9,7 @@ defmodule Formulator.InputTest do
       input =
         %{name: ""}
         |> prepare_form
-        |> Input.build_input(:name, class: "customer_name")
+        |> Input.build_input(:name, [class: "customer_name"], [])
         |> extract_html
         |> to_string
 
@@ -20,7 +20,7 @@ defmodule Formulator.InputTest do
       input =
         %{name: ""}
         |> prepare_form
-        |> Input.build_input(:name, as: :hidden)
+        |> Input.build_input(:name, [as: :hidden], [])
         |> extract_html
         |> to_string
 
@@ -31,7 +31,7 @@ defmodule Formulator.InputTest do
       input =
         %{admin: ""}
         |> prepare_form()
-        |> Input.build_input(:admin, as: :checkbox, class: "foo")
+        |> Input.build_input(:admin, [as: :checkbox, class: "foo"], [])
         |> extract_html
         |> to_string
 
@@ -43,9 +43,9 @@ defmodule Formulator.InputTest do
       input =
         %{date: DateTime.utc_now}
         |> prepare_form()
-        |> Input.build_input(:date, as: :date, builder: fn b ->
+        |> Input.build_input(:date, [as: :date, builder: fn b ->
           b.(:year, [options: 2017..2021, class: "foo"])
-        end)
+        end], [])
         |> extract_html
         |> to_string
 
@@ -57,9 +57,9 @@ defmodule Formulator.InputTest do
       input =
         %{datetime: DateTime.utc_now}
         |> prepare_form()
-        |> Input.build_input(:datetime, as: :datetime, builder: fn b ->
+        |> Input.build_input(:datetime, [as: :datetime, builder: fn b ->
           b.(:year, [options: 2017..2021, class: "foo"])
-        end)
+        end], [])
         |> extract_html
         |> to_string
 
@@ -71,9 +71,9 @@ defmodule Formulator.InputTest do
       input =
         %{time: DateTime.utc_now}
         |> prepare_form()
-        |> Input.build_input(:time, as: :time, builder: fn b ->
+        |> Input.build_input(:time, [as: :time, builder: fn b ->
           b.(:hour, [options: 1..2, class: "foo"])
-        end)
+        end], [])
         |> extract_html
         |> to_string
 
@@ -85,7 +85,7 @@ defmodule Formulator.InputTest do
       input =
         %{name: ""}
         |> prepare_form()
-        |> Input.build_input(:name, as: :textarea, class: "foo")
+        |> Input.build_input(:name, [as: :textarea, class: "foo"], [])
         |> extract_html
         |> to_string
 
@@ -99,7 +99,7 @@ defmodule Formulator.InputTest do
       input =
         %{name: "Fluff"}
         |> prepare_changeset_form(:validate)
-        |> Input.build_input(:name, validate: true)
+        |> Input.build_input(:name, [validate: true], [])
         |> extract_html
         |> to_string
 
@@ -110,7 +110,7 @@ defmodule Formulator.InputTest do
       input =
         %{name: "Fluff"}
         |> prepare_changeset_form(:novalidate)
-        |> Input.build_input(:name, validate: true)
+        |> Input.build_input(:name, [validate: true], [])
         |> extract_html
         |> to_string
 
@@ -124,7 +124,7 @@ defmodule Formulator.InputTest do
       input =
         %{number: "321"}
         |> prepare_changeset_form(:validate)
-        |> Input.build_input(:number, [])
+        |> Input.build_input(:number, [], [])
         |> extract_html
         |> to_string
 
@@ -137,7 +137,7 @@ defmodule Formulator.InputTest do
       input =
         %{number: "321"}
         |> prepare_changeset_form(:validate)
-        |> Input.build_input(:number, validate: true)
+        |> Input.build_input(:number, [validate: true], [])
         |> extract_html
         |> to_string
 
@@ -148,7 +148,7 @@ defmodule Formulator.InputTest do
       input =
         %{number: "321"}
         |> prepare_changeset_form(:novalidate)
-        |> Input.build_input(:number, validate: true)
+        |> Input.build_input(:number, [validate: true], [])
         |> extract_html
         |> to_string
 
@@ -162,7 +162,7 @@ defmodule Formulator.InputTest do
       input =
         %{email: "test@domain.com"}
         |> prepare_changeset_form(:validate)
-        |> Input.build_input(:email_address, [])
+        |> Input.build_input(:email_address, [], [])
         |> extract_html
         |> to_string
 
@@ -175,7 +175,7 @@ defmodule Formulator.InputTest do
       input =
         %{email: "test@domain.com"}
         |> prepare_changeset_form(:validate)
-        |> Input.build_input(:email_address, validate_regex: true)
+        |> Input.build_input(:email_address, [validate_regex: true], [])
         |> extract_html
         |> to_string
 
@@ -188,7 +188,7 @@ defmodule Formulator.InputTest do
       input =
         %{email: "test@domain.com"}
         |> prepare_changeset_form(:validate)
-        |> Input.build_input(:email_address, validate_regex: false)
+        |> Input.build_input(:email_address, [validate_regex: false], [])
         |> extract_html
         |> to_string
 
@@ -201,7 +201,7 @@ defmodule Formulator.InputTest do
       input =
         %{email: "test@domain.com"}
         |> prepare_changeset_form(:novalidate)
-        |> Input.build_input(:email_address, validate_regex: true)
+        |> Input.build_input(:email_address, [validate_regex: true], [])
         |> extract_html
         |> to_string
 
@@ -214,7 +214,7 @@ defmodule Formulator.InputTest do
       input =
         %{email: "test_domain.com"}
         |> prepare_conn_form
-        |> Input.build_input(:email_address, validate_regex: true)
+        |> Input.build_input(:email_address, [validate_regex: true], [])
         |> extract_html
         |> to_string
 
