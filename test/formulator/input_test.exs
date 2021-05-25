@@ -92,6 +92,28 @@ defmodule Formulator.InputTest do
       assert input =~ ~s(textarea)
       assert input =~ ~s(class="foo")
     end
+
+    test "`aria-label` is not added to the input by default" do
+      input =
+        %{name: ""}
+        |> prepare_form
+        |> Input.build_input(:name, [], [])
+        |> extract_html
+        |> to_string
+
+      refute input =~ ~s(aria-label="Name")
+    end
+
+    test "passing label: false adds `aria-label` to the input" do
+      input =
+        %{name: ""}
+        |> prepare_form
+        |> Input.build_input(:name, [], false)
+        |> extract_html
+        |> to_string
+
+      assert input =~ ~s(aria-label="Name")
+    end
   end
 
   describe "build_input - validation - required" do
