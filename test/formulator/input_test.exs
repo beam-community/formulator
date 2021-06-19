@@ -41,11 +41,18 @@ defmodule Formulator.InputTest do
 
     test ":as works with date" do
       input =
-        %{date: DateTime.utc_now}
+        %{date: DateTime.utc_now()}
         |> prepare_form()
-        |> Input.build_input(:date, [as: :date, builder: fn b ->
-          b.(:year, [options: 2017..2021, class: "foo"])
-        end], [])
+        |> Input.build_input(
+          :date,
+          [
+            as: :date,
+            builder: fn b ->
+              b.(:year, options: 2017..2021, class: "foo")
+            end
+          ],
+          []
+        )
         |> extract_html
         |> to_string
 
@@ -55,11 +62,18 @@ defmodule Formulator.InputTest do
 
     test ":as works with datetime" do
       input =
-        %{datetime: DateTime.utc_now}
+        %{datetime: DateTime.utc_now()}
         |> prepare_form()
-        |> Input.build_input(:datetime, [as: :datetime, builder: fn b ->
-          b.(:year, [options: 2017..2021, class: "foo"])
-        end], [])
+        |> Input.build_input(
+          :datetime,
+          [
+            as: :datetime,
+            builder: fn b ->
+              b.(:year, options: 2017..2021, class: "foo")
+            end
+          ],
+          []
+        )
         |> extract_html
         |> to_string
 
@@ -69,11 +83,18 @@ defmodule Formulator.InputTest do
 
     test ":as works with time" do
       input =
-        %{time: DateTime.utc_now}
+        %{time: DateTime.utc_now()}
         |> prepare_form()
-        |> Input.build_input(:time, [as: :time, builder: fn b ->
-          b.(:hour, [options: 1..2, class: "foo"])
-        end], [])
+        |> Input.build_input(
+          :time,
+          [
+            as: :time,
+            builder: fn b ->
+              b.(:hour, options: 1..2, class: "foo")
+            end
+          ],
+          []
+        )
         |> extract_html
         |> to_string
 
@@ -143,6 +164,7 @@ defmodule Formulator.InputTest do
   describe "build_input - validation - number" do
     test "when there is a validation, and the application config is false, do not add validation to input" do
       Application.put_env(:formulator, :validate, false)
+
       input =
         %{number: "321"}
         |> prepare_changeset_form(:validate)
@@ -181,6 +203,7 @@ defmodule Formulator.InputTest do
   describe "build_input - validation - format" do
     test "when there is a validation, and the application config is false, do not add validation to input" do
       Application.put_env(:formulator, :validate_regex, false)
+
       input =
         %{email: "test@domain.com"}
         |> prepare_changeset_form(:validate)

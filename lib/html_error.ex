@@ -1,10 +1,8 @@
 defmodule Formulator.HtmlError do
-  defstruct [
-    class: "",
-    html: ""
-  ]
+  defstruct class: "",
+            html: ""
 
-  @doc  """
+  @doc """
   Returns a struct with the appropriate error class and html for a form error.
 
   If there are errors on the given field,
@@ -13,11 +11,12 @@ defmodule Formulator.HtmlError do
   in the `:html` field.
   """
 
-  @spec html_error(Phoenix.HTML.Form.t, atom) :: %__MODULE__{}
+  @spec html_error(Phoenix.HTML.Form.t(), atom) :: %__MODULE__{}
   def html_error(form, field) do
     case form.errors[field] do
       nil ->
         %__MODULE__{}
+
       error ->
         %__MODULE__{
           class: "has-error",

@@ -2,11 +2,13 @@ defmodule Formulator.HtmlBuilder do
   use Phoenix.HTML
 
   def build_error_span(error, field) do
-    content_tag :span,
-    translate_error(error),
-    class: "field-error",
-    "data-role": "#{field}-error",
-    id: "#{field}-error"
+    content_tag(
+      :span,
+      translate_error(error),
+      class: "field-error",
+      "data-role": "#{field}-error",
+      id: "#{field}-error"
+    )
   end
 
   @error_message """

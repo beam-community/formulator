@@ -19,7 +19,9 @@ defmodule Formulator.HtmlErrorTest do
       assert error.class == "has-error"
       {:safe, html} = error.html
 
-      span_tag = ~s(<span class="field-error" data-role="name-error" id="name-error">required</span>)
+      span_tag =
+        ~s(<span class="field-error" data-role="name-error" id="name-error">required</span>)
+
       assert html |> to_string =~ span_tag
     end
   end
