@@ -1,0 +1,81 @@
+name: Elixir CI
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  formatting:
+    name: "Check Style"
+    runs-on: ubuntu-latest
+    container:
+      image: hexpm/elixir:1.11.3-erlang-23.2.4-alpine-3.13.1
+    steps:
+    - name: "Alpine setup"
+      run: |
+        apk update
+        apk upgrade
+        apk add --no-cache make bash zlib openssl openssh git g++ wget curl ca-certificates
+    - uses: actions/checkout@v1
+    - uses: actions/cache@v1
+      name: "Cache Mix"
+      with:
+        path: ~/.mix
+        key: ${{ runner.os }}-mix-${{ hashFiles('.tool-versions') }}
+    - uses: actions/cache@v1
+      name: "Cache Hex"
+      with:
+        path: ~/.hex
+        key: ${{ runner.os }}-hex-${{ hashFiles('.tool-versions') }}
+    - uses: actions/cache@v1
+      name: "Cache Dependencies"
+      with:
+        path: deps
+        key: ${{ runner.os }}-deps-lock-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+    - name: Setup
+      run: |
+        mix local.rebar --force
+        mix local.hex --force --if-missing
+        mix deps.get --only dev
+    - name: Mix Format
+      run: mix format --check-formatted
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        elixir_version:
+          - 1.7.4-erlang-19.3.6.13-alpine-3.12.0
+          - 1.11.3-erlang-23.2.4-alpine-3.13.1
+    env:
+      MIX_ENV: test
+      CI: "true"
+    container:
+      image: hexpm/elixir:${{ matrix.elixir_version }}
+    steps:
+    - name: "Alpine setup"
+      run: |
+        apk update
+        apk upgrade
+        apk add --no-cache make bash zlib openssl openssh git g++ wget curl ca-certificates
+    - uses: actions/checkout@v1
+    - uses: actions/cache@v1
+      name: "Cache Dependencies"
+      with:
+        path: deps
+        key: ${{ runner.os }}-deps-${{ matrix.elixir_version }}
+    - name: Install Hex & Rebar
+      run: |
+        mix local.rebar --force
+        mix local.hex --force
+    - name: Install Dependencies
+      run: |
+        rm mix.lock
+        mix deps.get
+    - name: Compile
+      run: mix compile --force --warnings-as-errors
+    - name: Test
+      run: mix test
