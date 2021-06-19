@@ -1,5 +1,3 @@
-[![CircleCI](https://circleci.com/gh/thoughtbot/formulator/tree/master.svg?style=svg&circle-token=91e22d7df81ae0ced6b7c1b37a804f657ab1e9de)](https://circleci.com/gh/thoughtbot/formulator/tree/master)
-
 # Formulator
 
 **Formulator is part of the [thoughtbot Elixir family][elixir-phoenix] of projects.**
