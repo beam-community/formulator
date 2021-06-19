@@ -14,6 +14,7 @@ Formulator is a library for Phoenix to give you:
   you to easily style inputs that have errors.
 
 You can replace the following:
+
 ```elixir
   <%= label form, :name %>
   <%= text_input form, :name %>
@@ -21,6 +22,7 @@ You can replace the following:
 ```
 
 with this:
+
 ```elixir
   <%= input form, :name %>
 ```
@@ -60,7 +62,8 @@ function. This is commonly defined by Phoenix either in
 `web/views/error_helpers.ex` or `web/gettext.ex`. Formulator can also
 be set to not validate by default; individual input options override
 the application config.
-```
+
+```elixir
   # config/config.exs
   config :formulator,
     translate_error_module: YourAppName.ErrorHelpers,
