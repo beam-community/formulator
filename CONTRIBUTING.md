@@ -20,7 +20,7 @@ Install dependencies:
 
 Make sure the tests pass:
 
-    `bin/test_suite`
+    `mix test`
 
 Make your change, with new passing tests. Follow the [style guide][style].
 

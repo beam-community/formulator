@@ -49,7 +49,7 @@ defmodule Formulator.InputTest do
         |> extract_html
         |> to_string
 
-      assert input =~ ~s(id="_date_year")
+      assert input =~ ~s(id="date_year")
       assert input =~ ~s(class="foo")
     end
 
@@ -63,7 +63,7 @@ defmodule Formulator.InputTest do
         |> extract_html
         |> to_string
 
-      assert input =~ ~s(id="_datetime_year")
+      assert input =~ ~s(id="datetime_year")
       assert input =~ ~s(class="foo")
     end
 
@@ -77,7 +77,7 @@ defmodule Formulator.InputTest do
         |> extract_html
         |> to_string
 
-      assert input =~ ~s(id="_time_hour")
+      assert input =~ ~s(id="time_hour")
       assert input =~ ~s(class="foo")
     end
 

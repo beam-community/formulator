@@ -9,10 +9,7 @@ defmodule Formulator.Test.Helpers do
   def extract_html(element) when not is_list(element) do
     extract_html([element])
   end
-  def extract_html(form) do
-    [{:safe, element} | _] = form
-    element
-  end
+  def extract_html([{:safe, element} | _]), do: element
 
   def prepare_changeset_form(attrs, :validate), do: prepare_changeset_form(attrs, :validation_changeset)
   def prepare_changeset_form(attrs, :novalidate), do: prepare_changeset_form(attrs, :no_validation_changeset)

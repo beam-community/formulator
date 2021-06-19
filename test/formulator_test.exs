@@ -38,7 +38,7 @@ defmodule FormulatorTest do
         |> extract_html
         |> to_string
 
-      assert label =~ ~s(<label for="_name">Name</label>)
+      assert label =~ ~s(<label for="name">Name</label>)
     end
 
     test "passing the label: [text:] option allows for overriding the label" do
@@ -49,7 +49,7 @@ defmodule FormulatorTest do
         |> extract_html
         |> to_string
 
-      assert label =~ ~s(<label for="_name">Customer Name</label>)
+      assert label =~ ~s(<label for="name">Customer Name</label>)
     end
 
     test "passing `label: false` will add `aria-label` to the input" do
@@ -71,7 +71,7 @@ defmodule FormulatorTest do
         |> extract_html
         |> to_string
 
-      assert label =~ ~s(<label class="control-label" for="_name">Name</label>)
+      assert label =~ ~s(<label class="control-label" for="name">Name</label>)
     end
 
     test "passing the label: 'text' option allows for overriding the label" do
@@ -82,7 +82,7 @@ defmodule FormulatorTest do
         |> extract_html
         |> to_string
 
-      assert label =~ ~s(<label for="_name">Customer Name</label>)
+      assert label =~ ~s(<label for="name">Customer Name</label>)
     end
   end
 end
