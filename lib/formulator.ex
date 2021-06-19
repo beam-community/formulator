@@ -3,7 +3,7 @@ defmodule Formulator do
   alias Formulator.HtmlError
   import Formulator.Input
 
-  @doc  """
+  @doc """
   Returns an html input with an associated label.
   If there are errors associated with the field, it will also output a span
   tag with the errors.
@@ -102,13 +102,13 @@ defmodule Formulator do
       #=> </div>
   """
 
-  @spec input(Phoenix.HTML.Form.t, atom, []) :: binary
+  @spec input(Phoenix.HTML.Form.t(), atom, []) :: binary
   def input(form, field, options \\ []) do
     {label_options, options} = extract_label_options(options)
 
-    input_wrapper form, field, options, label_options, fn error ->
+    input_wrapper(form, field, options, label_options, fn error ->
       build_input(form, field, options, label_options, error)
-    end
+    end)
   end
 
   defp input_wrapper(form, field, options, label_options, fun) do
@@ -123,12 +123,13 @@ defmodule Formulator do
 
   defp build_input_and_associated_tags(form, field, label_options, fun) do
     error = HtmlError.html_error(form, field)
+
     [
       build_label(form, field, label_options),
       fun.(error),
       error.html
     ]
-    |> Enum.reject(&(is_nil(&1)))
+    |> Enum.reject(&is_nil(&1))
   end
 
   defp wrapper_class(options) do
@@ -143,8 +144,9 @@ defmodule Formulator do
   end
 
   def build_label(_form, _field, false), do: nil
+
   def build_label(form, field, label_text) when is_binary(label_text) do
-    build_label(form, field, [text: label_text])
+    build_label(form, field, text: label_text)
   end
 
   def build_label(form, field, label_options) do

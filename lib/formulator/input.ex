@@ -18,7 +18,8 @@ defmodule Formulator.Input do
     apply(Phoenix.HTML.Form, input_function(input_type), [form, field, options])
   end
 
-  defp add_validation_attributes(options, %{impl: impl, source: %{validations: _}} = form, field) when is_atom(impl) do
+  defp add_validation_attributes(options, %{impl: impl, source: %{validations: _}} = form, field)
+       when is_atom(impl) do
     if option_enabled?(options, :validate, true) do
       form
       |> Phoenix.HTML.Form.input_validations(field)
@@ -28,12 +29,17 @@ defmodule Formulator.Input do
       options
     end
   end
+
   defp add_validation_attributes(options, _, _), do: options
 
-  defp add_format_validation_attribute(options, %{impl: impl, source: %{validations: _}} = form, field) when is_atom(impl) do
+  defp add_format_validation_attribute(
+         options,
+         %{impl: impl, source: %{validations: _}} = form,
+         field
+       )
+       when is_atom(impl) do
     with true <- option_enabled?(options, :validate_regex, true),
-      {:format, regex} <- form.source.validations[field]
-    do
+         {:format, regex} <- form.source.validations[field] do
       options
       |> Keyword.put_new(:pattern, Regex.source(regex))
       |> Keyword.delete(:validate_regex)
@@ -41,6 +47,7 @@ defmodule Formulator.Input do
       _ -> options
     end
   end
+
   defp add_format_validation_attribute(options, _, _), do: options
 
   defp option_enabled?(options, field, default) do
@@ -54,9 +61,9 @@ defmodule Formulator.Input do
 
   defp add_error_class(input_class, error_class) do
     [input_class, error_class]
-    |> Enum.reject(&(is_nil(&1)))
+    |> Enum.reject(&is_nil(&1))
     |> Enum.join(" ")
-    |> String.trim
+    |> String.trim()
   end
 
   defp add_aria_describedby(options, form, field) do
@@ -74,7 +81,7 @@ defmodule Formulator.Input do
   end
 
   defp format_label(field) do
-    field |> to_string |> String.replace("_", " ") |> String.capitalize
+    field |> to_string |> String.replace("_", " ") |> String.capitalize()
   end
 
   defp input_function(:checkbox), do: :checkbox
