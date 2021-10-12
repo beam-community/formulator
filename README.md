@@ -48,7 +48,7 @@ Add formulator to your list of dependencies in `mix.exs`:
 ```elixir
   def deps do
     [
-      {:formulator, "~> 0.3.0"},
+      {:formulator, "~> 0.4.0"},
     ]
   end
 ```

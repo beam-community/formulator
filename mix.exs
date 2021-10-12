@@ -2,7 +2,7 @@ defmodule Formulator.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/thoughtbot/formulator"
-  @version "0.3.0"
+  @version "0.4.0"
 
   def project do
     [
@@ -43,7 +43,7 @@ defmodule Formulator.Mixfile do
   defp package do
     [
       description: "A form helper for creating labels and inputs with errors",
-      maintainers: ["Jason Draper", "Ashley Ellis", "Josh Steiner"],
+      maintainers: ["David Bernheisel"],
       licenses: ["MIT"],
       links: %{
         "GitHub" => @source_url,
