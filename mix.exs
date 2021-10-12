@@ -26,8 +26,8 @@ defmodule Formulator.Mixfile do
       {:gettext, ">= 0.11.0"},
       {:phoenix_html, "~> 2.4 or ~> 3.0"},
       {:ex_doc, "~> 0.18", only: :dev, runtime: false},
-      {:ecto, "~> 2.1", only: :test, optional: true},
-      {:phoenix_ecto, "~> 3.2", only: :test, optional: true}
+      {:ecto, "~> 2.1 or ~> 3.0", only: :test, optional: true},
+      {:phoenix_ecto, "~> 3.2 or ~> 4.0", only: :test, optional: true}
     ]
   end
 
